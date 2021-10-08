@@ -1,0 +1,180 @@
+{
+  "info": {
+    "_postman_id": "43f9a63c-9db1-4376-bc4f-62d09b467a02",
+    "name": "out_source",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "viettel",
+      "item": [
+        {
+          "name": "login",
+          "_postman_id": "e3b2d05a-473f-44b9-998c-256ab7c96b03",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"deviceType\": \"Voffice40 2.2 - Simulator - 14.5\",\r\n    \"password\": \"123\",\r\n    \"userName\": \"vanthu\",\r\n    \"deviceId\": \"A4052E15-E175-48FD-9F55-DA913A633C2D\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/rest/oauth/login"
+          },
+          "response": []
+        },
+        {
+          "name": "list_doc_in",
+          "_postman_id": "0fc5bdd8-eda6-4b80-903b-022d5e94140a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"91a764beadb8527276afa6485f15dbf\",\r\n    \"searchModel\": {\r\n        \"searchText\": \"search text\",\r\n        \"menuType\": 65,\r\n        \"receiveToDate\": \"2021-09-03T16:02:32Z\",\r\n        \"receiveFromDate\": \"2021-08-03T16:02:32Z\"\r\n    },\r\n    \"objectType\": \"1\",\r\n    \"userName\": \"vanthu\",\r\n    \"activePage\": 0,\r\n    \"userTokenServer\": {\r\n        \"deptId\": 5256,\r\n        \"userId\": 14520,\r\n        \"roleId\": 922\r\n    },\r\n    \"consumerKey\": \"lJQuffWNTUhBStOF5w4MNSnWS6g\",\r\n    \"pageSize\": 20,\r\n    \"nonce\": \"nonce\",\r\n    \"roleId\": 77\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/rest/docIn/list"
+          },
+          "response": []
+        },
+        {
+          "name": "doc_in_child_depts",
+          "_postman_id": "3376479f-a97b-40e1-b1fa-6ceca7ddb948",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"7eb113f0d46713ec64089ceb33cb64f\",\r\n    \"consumerKey\": \"yZGVPRr7lOnUS2lv1/9tE7kuxlY\",\r\n    \"nonce\": \"nonce\",\r\n    \"deptId\": 402\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/rest/docIn/getChildDepts"
+          },
+          "response": []
+        },
+        {
+          "name": "doc_in_report",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "1d7e39e2-5b4b-49cb-bdc9-4604a2f40126",
+                "exec": [
+                  "// let jsonRes = pm.response.json().data.map(e => ({ deptName: e.deptName, userName: e.userName }));\r",
+                  "// console.log(jsonRes);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "17703164-657d-4152-9c91-2744b07a77cd",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "JSESSIONID=DD998B55C8BA586977D1D66703A32994"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"0ce0ed730767daede86a126d8b6c5ed\",\n    \"consumerKey\": \"Q6QS5IwAqlD74vqROuGGsgSTFfA\",\n    \"nonce\": \"nonce\",\n    \"fromDate\": \"2021-08-23T00:00:00.000Z\",\n    \"toDate\": \"2021-09-23T00:00:00.000Z\",\n    \"deptId\": 387,\n    \"reportType\": \"report.type.doc_in_tong_hop_tinh_hinh_xl_vb_den\",\n    \"reportStatus\": \"ALL\"\n}",
+              "options": {
+                "raw": {}
+              }
+            },
+            "url": "http://localhost:8080/rest/docIn/getDoc"
+          },
+          "response": []
+        },
+        {
+          "name": "doc_out_child_depts",
+          "_postman_id": "2e1dac20-859a-4c5b-a57b-bcd6f50d27a0",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"token\": \"7eb113f0d46713ec64089ceb33cb64f\",\r\n    \"consumerKey\": \"yZGVPRr7lOnUS2lv1/9tE7kuxlY\",\r\n    \"nonce\": \"nonce\",\r\n    \"deptId\": 402\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/rest/docOut/getChildDepts"
+          },
+          "response": []
+        },
+        {
+          "name": "doc_out_report",
+          "_postman_id": "96d4a995-ba21-4664-a955-217accf8ac10",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "JSESSIONID=DD998B55C8BA586977D1D66703A32994"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"17037d36e481d19a943c0371113738a\",\n    \"consumerKey\": \"XNKXwf7MRwaADCRXHLuAMxcmDvg\",\n    \"nonce\": \"nonce\",\n    \"fromDate\": \"2021-08-18T00:00:00.000Z\",\n    \"toDate\": \"2021-09-18T00:00:00.000Z\",\n    \"deptId\": 387,\n    \"reportType\": \"report.docOut.docOutLeaderSubmitDetail\"\n}\n//1\n// \"reportType\" : \"report.docOut.docOutAll\"\n//2\n// \"reportType\" : \"report.docOut.docOutAnswerRequire\"\n//3\n// \"reportType\": \"report.docOut.docOutLeaderSubmitDetail\"\n//4\n// \"reportType\" : \"report.docOut.docOutAssign\"\n",
+              "options": {
+                "raw": {}
+              }
+            },
+            "url": "http://localhost:8080/rest/docOut/getDoc"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "6060fa2c-faa0-4deb-b25a-d0ef8557cc01"
+    }
+  ]
+}
