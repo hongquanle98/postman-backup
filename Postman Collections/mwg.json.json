@@ -1,0 +1,3074 @@
+{
+  "info": {
+    "_postman_id": "f5cd20c5-fa87-476c-bf3e-e36168527bc2",
+    "name": "MWG",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "TGDD-DMX",
+      "item": [
+        {
+          "name": "Script",
+          "item": [
+            {
+              "name": "TableVisualizeJavaApi",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "4b9f5119-36f1-46b2-acd6-bce46fc9f361",
+                    "exec": [
+                      "const tableVisualize = () => {\r",
+                      "    // Response body in json\r",
+                      "    let responseJson = pm.response.json().productList;\r",
+                      "    //console.log(responseJson);\r",
+                      "\r",
+                      "    let columns_str = pm.environment.get(\"java_api_columns\");\r",
+                      "    // Columns want to show\r",
+                      "    let columns = columns_str.split(\",\");\r",
+                      "\r",
+                      "    // Template (table)\r",
+                      "    let style = `\r",
+                      "        <style>\r",
+                      "            body {\r",
+                      "                background-color: #212121;\r",
+                      "                counter-reset: Serial;\r",
+                      "            }\r",
+                      "\r",
+                      "            table {\r",
+                      "                width: 100%;\r",
+                      "                background-color: #212529; \r",
+                      "            }\r",
+                      "\r",
+                      "            td, th {\r",
+                      "                border: 3px solid #32383e;\r",
+                      "                color: white;\r",
+                      "            }\r",
+                      "\r",
+                      "            th {\r",
+                      "                background-color: #FF6C37;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:nth-child(even){\r",
+                      "                background-color: #2c3034;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:hover {\r",
+                      "                background-color: #707070;\r",
+                      "            }    \r",
+                      "\r",
+                      "            td:first-child, th:first-child {\r",
+                      "                padding: 12px 15px;\r",
+                      "            }    \r",
+                      "\r",
+                      "            tr td:first-child:before\r",
+                      "            {\r",
+                      "                counter-increment: Serial;      /* Increment the Serial counter */\r",
+                      "                content: counter(Serial); /* Display the counter */\r",
+                      "            }\r",
+                      "        </style>`;\r",
+                      "\r",
+                      "    let table = `\r",
+                      "        <table>\r",
+                      "            <tr>\r",
+                      "                <th></th>\r",
+                      "            </tr>\r",
+                      "\r",
+                      "            {{#each response}}\r",
+                      "                <tr>\r",
+                      "                    <td></td>\r",
+                      "                </tr>\r",
+                      "            {{/each}}\r",
+                      "        </table>`;\r",
+                      "\r",
+                      "    let template = style + table;\r",
+                      "\r",
+                      "    function GetTemplate(array){\r",
+                      "        let th = '<th>No.</th>',\r",
+                      "            td = '<td></td>';\r",
+                      "        array.forEach(function (element){\r",
+                      "            th += '<th>' + element + '</th>';\r",
+                      "            td += '<td>{{' + element + '}}</td>';\r",
+                      "        })\r",
+                      "        template = template.replace('<th></th>', th);\r",
+                      "        template = template.replace('<td></td>', td);\r",
+                      "\r",
+                      "        return template;\r",
+                      "    }\r",
+                      "\r",
+                      "    // Set visualizer\r",
+                      "    pm.visualizer.set(GetTemplate(columns), {\r",
+                      "        //Pass the response body parsed as JSON as `data`\r",
+                      "        response: responseJson\r",
+                      "    });\r",
+                      "}\r",
+                      "\r",
+                      "pm.environment.set(\"table_visualize_java_api\", tableVisualize.toString());\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "a4b1d7ac-9325-4bc0-8e1b-f4c6452d355b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "example.com"
+              },
+              "response": []
+            },
+            {
+              "name": "TableVisualizeJavaApiTest",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "46ab7d58-f018-47ec-9555-23eef1d42c48",
+                    "exec": [
+                      "const tableVisualize = () => {\r",
+                      "    // Template (table)\r",
+                      "    let template = `\r",
+                      "        <script src=\"https://d3js.org/d3.v5.min.js\"></script>\r",
+                      "        <div id=\"table\"></div>\r",
+                      "        <style>\r",
+                      "            body {\r",
+                      "                background-color: #212121;\r",
+                      "                counter-reset: Serial;\r",
+                      "            }\r",
+                      "\r",
+                      "            table {\r",
+                      "                width: 100%;\r",
+                      "                background-color: #212529; \r",
+                      "            }\r",
+                      "\r",
+                      "            td, th {\r",
+                      "                border: 3px solid #32383e;\r",
+                      "                color: white;\r",
+                      "            }\r",
+                      "\r",
+                      "            th {\r",
+                      "                background-color: #FF6C37;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:nth-child(even){\r",
+                      "                background-color: #2c3034;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:hover {\r",
+                      "                background-color: #707070;\r",
+                      "            }    \r",
+                      "\r",
+                      "            td:first-child, th:first-child {\r",
+                      "                padding: 12px 15px;\r",
+                      "            }    \r",
+                      "\r",
+                      "            tr td:first-child:before\r",
+                      "            {\r",
+                      "                counter-increment: Serial;      /* Increment the Serial counter */\r",
+                      "                content: counter(Serial); /* Display the counter */\r",
+                      "            }\r",
+                      "        </style>\r",
+                      "        <script>\r",
+                      "            const results = {{{results}}};\r",
+                      "            const headers = {{{headers}}};\r",
+                      "            var table = d3.select(\"#table\").append(\"table\");\r",
+                      "            var header = table.append(\"thead\").append(\"tr\");\r",
+                      "            \r",
+                      "            // creates the headers\r",
+                      "            header\r",
+                      "            .selectAll(\"th\")\r",
+                      "                .data(headers)\r",
+                      "                .enter()\r",
+                      "            .append(\"th\")\r",
+                      "                .text(function(d) {return d;});\r",
+                      "            var tablebody = table.append(\"tbody\");\r",
+                      "            rows = tablebody\r",
+                      "            .selectAll(\"tr\")\r",
+                      "                .data(results)\r",
+                      "                .enter()\r",
+                      "            .append(\"tr\");\r",
+                      "            \r",
+                      "            // each row has its own array, so here we enter it into the cells\r",
+                      "            cells = rows.selectAll(\"td\")\r",
+                      "                .data(function(d) {\r",
+                      "                    return d;\r",
+                      "                })\r",
+                      "                .enter()\r",
+                      "            .append(\"td\")\r",
+                      "                .text(function(d) {\r",
+                      "                    return d;\r",
+                      "                });\r",
+                      "        </script>`;\r",
+                      "\r",
+                      "    /* FEED DATA INTO TEMPLATE */\r",
+                      "    pm.visualizer.set(template, {\r",
+                      "        // Template will receive stringified JSON\r",
+                      "        results: JSON.stringify(pm.environment.get(\"java_api_results\")),\r",
+                      "        headers: JSON.stringify(pm.environment.get(\"java_api_headers\"))\r",
+                      "    });\r",
+                      "}\r",
+                      "\r",
+                      "pm.environment.set(\"table_visualize_java_api_test\", tableVisualize.toString());\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "36b3e28d-8677-4741-a8f5-611c4bd61717",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "example.com"
+              },
+              "response": []
+            },
+            {
+              "name": "TableVisualizeJavaApiTest2",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "3c88c673-89d1-41f1-b51d-1fb8c454bf22",
+                    "exec": [
+                      "// pm.environment.set(\"java_api_headers\", ['ProductID', 'Promotion']);\r",
+                      "// pm.environment.set(\"java_api_results\", pm.response.json().productList.map(e => [e.ProductID, e.Promotion.map(e => [e.PromotionID, e.PromotionListGroupName])]));\r",
+                      "// pm.sendRequest('example.com');\r",
+                      "// eval(pm.environment.get(\"table_visualize_java_api_test\"))();\r",
+                      "\r",
+                      "// GO TO THE END OF THE TEST SCRIPT.\r",
+                      "var template = `\r",
+                      "<style>\r",
+                      "        .fill,\r",
+                      "body,\r",
+                      "html {\r",
+                      "  height: 100%\r",
+                      "}\r",
+                      "\r",
+                      "#json_vl,\r",
+                      ".td_head,\r",
+                      ".td_row_even,\r",
+                      ".td_row_odd {\r",
+                      "  font-size: small\r",
+                      "}\r",
+                      "\r",
+                      "#json_pnl,\r",
+                      "#xxa,\r",
+                      ".navbar-header,\r",
+                      ".navbar-nav,\r",
+                      ".navbar-nav>li,\r",
+                      ".td_head {\r",
+                      "  float: left\r",
+                      "}\r",
+                      "\r",
+                      ".fill {\r",
+                      "  min-height: 100%\r",
+                      "}\r",
+                      "\r",
+                      "#json_vl {\r",
+                      "  font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace\r",
+                      "}\r",
+                      "\r",
+                      "#widget {\r",
+                      "  width: 100%\r",
+                      "}\r",
+                      "\r",
+                      ".top_size {\r",
+                      "  height: 51px\r",
+                      "}\r",
+                      "\r",
+                      "#all_panels {\r",
+                      "  height: 100%;\r",
+                      "  min-height: 100%\r",
+                      "}\r",
+                      "\r",
+                      "#aboutLnk {\r",
+                      "  position: fixed;\r",
+                      "  right: 10px;\r",
+                      "  top: 15px\r",
+                      "}\r",
+                      "\r",
+                      "#inner_text {\r",
+                      "  display: block;\r",
+                      "  position: absolute;\r",
+                      "  height: auto;\r",
+                      "  bottom: 0;\r",
+                      "  top: 0;\r",
+                      "  left: 0;\r",
+                      "  right: 0;\r",
+                      "  margin-top: 51px;\r",
+                      "  margin-bottom: 0\r",
+                      "}\r",
+                      "\r",
+                      "#json_pnl {\r",
+                      "  background-color: #ccc;\r",
+                      "  width: 33.3%\r",
+                      "}\r",
+                      "\r",
+                      "#xxa {\r",
+                      "  background-color: #E8E8E8;\r",
+                      "  width: 66.7%\r",
+                      "}\r",
+                      "\r",
+                      "#table_pnl,\r",
+                      "#tree_pnl {\r",
+                      "  background-color: #E8E8E8;\r",
+                      "  float: left;\r",
+                      "  width: 50%\r",
+                      "}\r",
+                      "\r",
+                      "#sharethis {\r",
+                      "  position: fixed;\r",
+                      "  right: 80px;\r",
+                      "  top: 10px\r",
+                      "}\r",
+                      "\r",
+                      "#inner_tbl {\r",
+                      "  padding-left: 2px\r",
+                      "}\r",
+                      "\r",
+                      ".td_row_even {\r",
+                      "  padding: 2px;\r",
+                      "  background-color: #F6F4F0\r",
+                      "}\r",
+                      "\r",
+                      ".td_row_odd {\r",
+                      "  padding: 2px;\r",
+                      "  background-color: #FFF\r",
+                      "}\r",
+                      "\r",
+                      ".td_head {\r",
+                      "  padding: 2px;\r",
+                      "  font-weight: 700\r",
+                      "}\r",
+                      "\r",
+                      "input,\r",
+                      "p,\r",
+                      "select,\r",
+                      "td,\r",
+                      "textarea,\r",
+                      "th {\r",
+                      "  font-size: 1em\r",
+                      "}\r",
+                      "\r",
+                      "table,\r",
+                      "td,\r",
+                      "th {\r",
+                      "  border: 1px solid gray\r",
+                      "}\r",
+                      "\r",
+                      "textarea {\r",
+                      "  -moz-box-sizing: border-box;\r",
+                      "  -webkit-box-sizing: border-box;\r",
+                      "  box-sizing: border-box;\r",
+                      "  display: block;\r",
+                      "  width: 100%;\r",
+                      "  height: 100%;\r",
+                      "  margin: 0;\r",
+                      "  padding: 4px;\r",
+                      "  border: 1px solid #333;\r",
+                      "  overflow-y: auto;\r",
+                      "  overflow-x: hidden\r",
+                      "}\r",
+                      "\r",
+                      "*,\r",
+                      "html {\r",
+                      "  font-family: Verdana, Arial, Helvetica, sans-serif\r",
+                      "}\r",
+                      "\r",
+                      "form,\r",
+                      "h1,\r",
+                      "h2,\r",
+                      "h3,\r",
+                      "h4,\r",
+                      "h5,\r",
+                      "li,\r",
+                      "p,\r",
+                      "ul {\r",
+                      "  margin: 0;\r",
+                      "  padding: 0\r",
+                      "}\r",
+                      "\r",
+                      "img {\r",
+                      "  border: none\r",
+                      "}\r",
+                      "\r",
+                      "p {\r",
+                      "  margin: 0 0 1em\r",
+                      "}\r",
+                      "\r",
+                      "table {\r",
+                      "  font-size: 100%;\r",
+                      "  background-color: white;\r",
+                      "}\r",
+                      "\r",
+                      "ol.tree {\r",
+                      "  padding: 0 0 0 30px;\r",
+                      "  width: 300px\r",
+                      "}\r",
+                      "\r",
+                      "li {\r",
+                      "  position: relative;\r",
+                      "  margin-left: -15px;\r",
+                      "  list-style: none\r",
+                      "}\r",
+                      "\r",
+                      "li.file {\r",
+                      "  margin-left: -1px !important\r",
+                      "}\r",
+                      "\r",
+                      "li.file a {\r",
+                      "  background: url(leaf.png)0 5px no-repeat;\r",
+                      "  color: #000;\r",
+                      "  padding-left: 12px;\r",
+                      "  text-decoration: none;\r",
+                      "  display: block;\r",
+                      "  font-size: small\r",
+                      "}\r",
+                      "\r",
+                      "li.file a[href$='.css'],\r",
+                      "li.file a[href$='.js'],\r",
+                      "li.file a[href*='.pdf'],\r",
+                      "li.file a[href*='.html'] {\r",
+                      "  background: url(http://www.thecssninja.com/demo/css_tree/document.png)no-repeat\r",
+                      "}\r",
+                      "\r",
+                      "li input {\r",
+                      "  position: absolute;\r",
+                      "  left: 0;\r",
+                      "  margin-left: 0;\r",
+                      "  opacity: 0;\r",
+                      "  z-index: 2;\r",
+                      "  cursor: pointer;\r",
+                      "  height: 1em;\r",
+                      "  width: 1em;\r",
+                      "  top: 0\r",
+                      "}\r",
+                      "\r",
+                      "li input+ol {\r",
+                      "  background: url(http://www.thecssninja.com/demo/css_tree/toggle-small-expand.png)40px -3px no-repeat;\r",
+                      "  margin: -20px 0 0 -44px;\r",
+                      "  height: 1em;\r",
+                      "  padding: 1.563em 0 0 80px\r",
+                      "}\r",
+                      "\r",
+                      "li label.lbl_array,\r",
+                      "li label.lbl_obj {\r",
+                      "  display: block;\r",
+                      "  padding-left: 33px;\r",
+                      "  margin-bottom: 2px\r",
+                      "}\r",
+                      "\r",
+                      "li input+ol>li {\r",
+                      "  display: none;\r",
+                      "  margin-left: -14px !important;\r",
+                      "  padding-left: 1px\r",
+                      "}\r",
+                      "\r",
+                      "li label.lbl_obj {\r",
+                      "  background: url(folder.png)15px 1px no-repeat;\r",
+                      "  cursor: pointer\r",
+                      "}\r",
+                      "\r",
+                      "li label.lbl_array {\r",
+                      "  background: url(array.png)15px 1px no-repeat;\r",
+                      "  cursor: pointer\r",
+                      "}\r",
+                      "\r",
+                      "li input:checked+ol {\r",
+                      "  background: url(http://www.thecssninja.com/demo/css_tree/toggle-small.png)40px -3px no-repeat;\r",
+                      "  margin: -20px 0 0 -44px;\r",
+                      "  padding: 1.563em 0 0 80px;\r",
+                      "  height: auto\r",
+                      "}\r",
+                      "\r",
+                      "li input:checked+ol>li {\r",
+                      "  display: block;\r",
+                      "  margin: 0 0 .125em\r",
+                      "}\r",
+                      "\r",
+                      "li input:checked+ol>li:last-child {\r",
+                      "  margin: 0 0 .063em\r",
+                      "}\r",
+                      "\r",
+                      ".container {\r",
+                      "  width: 970px;\r",
+                      "  max-width: none !important\r",
+                      "}\r",
+                      "\r",
+                      ".col-xs-4 {\r",
+                      "  padding-top: 15px;\r",
+                      "  padding-bottom: 15px;\r",
+                      "  background-color: #eee;\r",
+                      "  background-color: rgba(86, 61, 124, .15);\r",
+                      "  border: 1px solid #ddd;\r",
+                      "  border: 1px solid rgba(86, 61, 124, .2)\r",
+                      "}\r",
+                      "\r",
+                      "    </style>\r",
+                      "<div id=\"html\">\r",
+                      "<input type=\"text\" id=\"json\">\r",
+                      "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\r",
+                      "<!--<script src=\"json2table.js\"></script>-->\r",
+                      "<script>\r",
+                      "$(function() {\r",
+                      "    pm.getData((err, data) => {\r",
+                      "        $(\"#json\").val(JSON.stringify(data.json));\r",
+                      "        json2table(\"#html\");\r",
+                      "    });\r",
+                      "});\r",
+                      "\r",
+                      "function call(a) {\r",
+                      "    $(\"#json\").val(JSON.stringify(a, void 0, 2));\r",
+                      "    json2table()\r",
+                      "}\r",
+                      "\r",
+                      "function json2table(selector) {\r",
+                      "    $(selector).html(buildTable(getJsonVar()));\r",
+                      "}\r",
+                      "\r",
+                      "function getJsonVar() {\r",
+                      "    try {\r",
+                      "        var a = $.parseJSON($(\"#json\").val());\r",
+                      "        $(\"#json\").val(JSON.stringify(a, void 0, 2));\r",
+                      "        return a\r",
+                      "    } catch (e) {\r",
+                      "        //return $(\"#error_msg\").text(e.message), $(\"#errorModal\").modal(\"show\"), {}\r",
+                      "        alert(e);\r",
+                      "    }\r",
+                      "}\r",
+                      "\r",
+                      "function buildTable(a) {\r",
+                      "    var e = document.createElement(\"table\"),\r",
+                      "        d, b;\r",
+                      "    if (isArray(a)) return buildArray(a);\r",
+                      "    for (var c in a) \"object\" != typeof a[c] || isArray(a[c]) ? \"object\" == typeof a[c] && isArray(a[c]) ? (d = e.insertRow(-1), b = d.insertCell(-1), b.colSpan = 2, b.innerHTML = '<div class=\"td_head\">' + encodeText(c) + '</div><table style=\"width:100%\">' + $(buildArray(a[c]), !1).html() + \"</table>\") : (d = e.insertRow(-1), b = d.insertCell(-1), b.innerHTML = \"<div class='td_head'>\" + encodeText(c) + \"</div>\", d = d.insertCell(-1), d.innerHTML = \"<div class='td_row_even'>\" +\r",
+                      "        encodeText(a[c]) + \"</div>\") : (d = e.insertRow(-1), b = d.insertCell(-1), b.colSpan = 2, b.innerHTML = '<div class=\"td_head\">' + encodeText(c) + '</div><table style=\"width:100%\">' + $(buildTable(a[c]), !1).html() + \"</table>\");\r",
+                      "    return e\r",
+                      "}\r",
+                      "\r",
+                      "function buildArray(a) {\r",
+                      "    var e = document.createElement(\"table\"),\r",
+                      "        d, b, c = !1,\r",
+                      "        p = !1,\r",
+                      "        m = {},\r",
+                      "        h = -1,\r",
+                      "        n = 0,\r",
+                      "        l;\r",
+                      "    l = \"\";\r",
+                      "    if (0 == a.length) return \"<div></div>\";\r",
+                      "    d = e.insertRow(-1);\r",
+                      "    for (var f = 0; f < a.length; f++)\r",
+                      "        if (\"object\" != typeof a[f] || isArray(a[f])) \"object\" == typeof a[f] && isArray(a[f]) ? (b = d.insertCell(h), b.colSpan = 2, b.innerHTML = '<div class=\"td_head\"></div><table style=\"width:100%\">' + $(buildArray(a[f]), !1).html() + \"</table>\", c = !0) : p || (h += 1, p = !0, b = d.insertCell(h), m.empty = h, b.innerHTML = \"<div class='td_head'>&nbsp;</div>\");\r",
+                      "        else\r",
+                      "            for (var k in a[f]) l =\r",
+                      "                \"-\" + k, l in m || (c = !0, h += 1, b = d.insertCell(h), m[l] = h, b.innerHTML = \"<div class='td_head'>\" + encodeText(k) + \"</div>\");\r",
+                      "    c || e.deleteRow(0);\r",
+                      "    n = h + 1;\r",
+                      "    for (f = 0; f < a.length; f++)\r",
+                      "        if (d = e.insertRow(-1), td_class = isEven(f) ? \"td_row_even\" : \"td_row_odd\", \"object\" != typeof a[f] || isArray(a[f]))\r",
+                      "            if (\"object\" == typeof a[f] && isArray(a[f]))\r",
+                      "                for (h = m.empty, c = 0; c < n; c++) b = d.insertCell(c), b.className = td_class, l = c == h ? '<table style=\"width:100%\">' + $(buildArray(a[f]), !1).html() + \"</table>\" : \" \", b.innerHTML = \"<div class='\" + td_class + \"'>\" + encodeText(l) +\r",
+                      "                    \"</div>\";\r",
+                      "            else\r",
+                      "                for (h = m.empty, c = 0; c < n; c++) b = d.insertCell(c), l = c == h ? a[f] : \" \", b.className = td_class, b.innerHTML = \"<div class='\" + td_class + \"'>\" + encodeText(l) + \"</div>\";\r",
+                      "    else {\r",
+                      "        for (c = 0; c < n; c++) b = d.insertCell(c), b.className = td_class, b.innerHTML = \"<div class='\" + td_class + \"'>&nbsp;</div>\";\r",
+                      "        for (k in a[f]) c = a[f], l = \"-\" + k, h = m[l], b = d.cells[h], b.className = td_class, \"object\" != typeof c[k] || isArray(c[k]) ? \"object\" == typeof c[k] && isArray(c[k]) ? b.innerHTML = '<table style=\"width:100%\">' + $(buildArray(c[k]), !1).html() + \"</table>\" : b.innerHTML =\r",
+                      "            \"<div class='\" + td_class + \"'>\" + encodeText(c[k]) + \"</div>\" : b.innerHTML = '<table style=\"width:100%\">' + $(buildTable(c[k]), !1).html() + \"</table>\"\r",
+                      "    }\r",
+                      "    return e\r",
+                      "}\r",
+                      "\r",
+                      "function encodeText(a) {\r",
+                      "    return $(\"<div />\").text(a).html()\r",
+                      "}\r",
+                      "\r",
+                      "function isArray(a) {\r",
+                      "    return \"[object Array]\" === Object.prototype.toString.call(a)\r",
+                      "}\r",
+                      "\r",
+                      "function isEven(a) {\r",
+                      "    return 0 == a % 2\r",
+                      "}\r",
+                      "</script>`;\r",
+                      "\r",
+                      "\r",
+                      "// In case you only want a specific property, change it here.\r",
+                      "//\r",
+                      "// Default: You can set the entire JSON response using pm.response.json()\r",
+                      "let tableProps = {\r",
+                      "    json: pm.response.json().productList.map(e => [e.ProductID, e.Promotion.map(e => [e.PromotionID, e.provinceIDList])])\r",
+                      "};\r",
+                      "\r",
+                      "pm.visualizer.set(template, tableProps);"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "3051accd-2a4d-4710-b662-bc2559ae0d35",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "example.com"
+              },
+              "response": []
+            },
+            {
+              "name": "TableVisualizeNetApi",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "a9f4c8c8-293d-43a5-85b2-c821d49fc95b",
+                    "exec": [
+                      "const tableVisualize = () => {\r",
+                      "    // Response body in json\r",
+                      "    let requestHeader = pm.request.headers.get(\"SOAPAction\");\r",
+                      "    let action = requestHeader.substring(requestHeader.lastIndexOf(\"/\") + 1)\r",
+                      "    let responseJson = xml2Json(pm.response.text())[\"s:Envelope\"][\"s:Body\"][action + \"Response\"][action + \"Result\"][\"a:ProductBO\"];\r",
+                      "    //console.log(responseJson);\r",
+                      "\r",
+                      "    let columns_str = pm.environment.get(\"net_api_columns\");\r",
+                      "    // Columns want to show\r",
+                      "    let columns = columns_str.split(\",\");\r",
+                      "\r",
+                      "    // Template (table)\r",
+                      "    let style = `\r",
+                      "        <style>\r",
+                      "            body {\r",
+                      "                background-color: #212121;\r",
+                      "                counter-reset: Serial;\r",
+                      "            }\r",
+                      "\r",
+                      "            table {\r",
+                      "                width: 100%;\r",
+                      "                background-color: #212529; \r",
+                      "            }\r",
+                      "\r",
+                      "            td, th {\r",
+                      "                border: 3px solid #32383e;\r",
+                      "                color: white;\r",
+                      "            }\r",
+                      "\r",
+                      "            th {\r",
+                      "                background-color: #FF6C37;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:nth-child(even){\r",
+                      "                background-color: #2c3034;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:hover {\r",
+                      "                background-color: #707070;\r",
+                      "            }    \r",
+                      "\r",
+                      "            td:first-child, th:first-child {\r",
+                      "                padding: 12px 15px;\r",
+                      "            }    \r",
+                      "\r",
+                      "            tr td:first-child:before\r",
+                      "            {\r",
+                      "                counter-increment: Serial;      /* Increment the Serial counter */\r",
+                      "                content: counter(Serial); /* Display the counter */\r",
+                      "            }\r",
+                      "        </style>`;\r",
+                      "\r",
+                      "    let table = `\r",
+                      "        <table>\r",
+                      "            <tr>\r",
+                      "                <th></th>\r",
+                      "            </tr>\r",
+                      "\r",
+                      "            {{#each response}}\r",
+                      "                <tr>\r",
+                      "                    <td></td>\r",
+                      "                </tr>\r",
+                      "            {{/each}}\r",
+                      "        </table>`;\r",
+                      "\r",
+                      "    let template = style + table;\r",
+                      "\r",
+                      "    function GetTemplate(array){\r",
+                      "        let th = '<th>No.</th>',\r",
+                      "            td = '<td></td>';\r",
+                      "        array.forEach(function (element){\r",
+                      "            th += '<th>' + element + '</th>';\r",
+                      "            td += '<td>{{' + element + '}}</td>';\r",
+                      "        })\r",
+                      "        template = template.replace('<th></th>', th);\r",
+                      "        template = template.replace('<td></td>', td);\r",
+                      "\r",
+                      "        return template;\r",
+                      "    }\r",
+                      "\r",
+                      "    // Set visualizer\r",
+                      "    pm.visualizer.set(GetTemplate(columns), {\r",
+                      "        //Pass the response body parsed as JSON as `data`\r",
+                      "        response: responseJson\r",
+                      "    });\r",
+                      "}\r",
+                      "\r",
+                      "pm.environment.set(\"table_visualize_net_api\", tableVisualize.toString());\r",
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "cd587c65-51b8-4e3e-acc9-574c95a32fa5",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "example.com"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "fa6af55c-567f-457e-9048-5213942261ec",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "Trang chủ",
+          "item": [
+            {
+              "name": "Block săn sale TGDD",
+              "item": [
+                {
+                  "name": "GetProductIdsFromHtmlId",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "7b4b91f4-3302-42a4-877e-08b4f065b481",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "_postman_id": "071f88df-50d6-47a0-b60f-346cf39694bd",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3429&siteID=1&langID=vi-VN",
+                      "protocol": "http",
+                      "host": [
+                        "172",
+                        "16",
+                        "3",
+                        "23"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "webapi",
+                        "apisystem",
+                        "gethtmlinfo"
+                      ],
+                      "query": [
+                        {
+                          "key": "htmlID",
+                          "value": "3429"
+                        },
+                        {
+                          "key": "siteID",
+                          "value": "1"
+                        },
+                        {
+                          "key": "langID",
+                          "value": "vi-VN"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetProductList",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "5a2d806c-e228-431a-95bb-6c91be13a145",
+                        "exec": [
+                          "pm.sendRequest({\r",
+                          "    url: 'http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3429&siteID=1&langID=vi-VN',\r",
+                          "    method: 'GET',\r",
+                          "}, function (err, res) {\r",
+                          "    let content = res.json().InfoLangBO.Content;\r",
+                          "    console.log(content);\r",
+                          "    pm.request.url.query.idx(0).value = content.replace(/<[^>]*>?/gm, '');\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "_postman_id": "e99964e7-6b76-4fa7-b7a8-8ec408761fb1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://172.16.3.23/api/v2/webapi/apiproduct/getproductlist?productids=&siteID=1&provinceID=3&langID=vi-VN",
+                      "protocol": "http",
+                      "host": [
+                        "172",
+                        "16",
+                        "3",
+                        "23"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "webapi",
+                        "apiproduct",
+                        "getproductlist"
+                      ],
+                      "query": [
+                        {
+                          "key": "productids",
+                          "value": ""
+                        },
+                        {
+                          "key": "siteID",
+                          "value": "1"
+                        },
+                        {
+                          "key": "provinceID",
+                          "value": "3"
+                        },
+                        {
+                          "key": "langID",
+                          "value": "vi-VN"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "_postman_id": "96428f2c-e73c-4ff0-b94f-0bb75ca65a6e",
+              "_postman_isSubFolder": true
+            },
+            {
+              "name": "Block săn sale DMX",
+              "item": [
+                {
+                  "name": "GetProductIdsFromHtmlId",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "13b91192-3aa0-44ec-a13d-1bdde31ab107",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "_postman_id": "877b08b1-edeb-47cd-81a3-fdaf7df6771b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3109&siteID=1&langID=vi-VN",
+                      "protocol": "http",
+                      "host": [
+                        "172",
+                        "16",
+                        "3",
+                        "23"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "webapi",
+                        "apisystem",
+                        "gethtmlinfo"
+                      ],
+                      "query": [
+                        {
+                          "key": "htmlID",
+                          "value": "3109"
+                        },
+                        {
+                          "key": "siteID",
+                          "value": "1"
+                        },
+                        {
+                          "key": "langID",
+                          "value": "vi-VN"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetProductList",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3baa8a93-de92-4831-9291-bc8aa11f2936",
+                        "exec": [
+                          "pm.sendRequest({\r",
+                          "    url: 'http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3109&siteID=1&langID=vi-VN',\r",
+                          "    method: 'GET',\r",
+                          "}, function (err, res) {\r",
+                          "    let content = res.json().InfoLangBO.Content;\r",
+                          "    console.log(content);\r",
+                          "    pm.request.url.query.idx(0).value = content.replace(/<[^>]*>?/gm, '');\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "_postman_id": "89a46c7a-4466-4043-b0b2-c4a21a9e1033",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://172.16.3.23/api/v2/webapi/apiproduct/getproductlist?productids=&siteID=2&provinceID=3&langID=vi-VN\n",
+                      "protocol": "http",
+                      "host": [
+                        "172",
+                        "16",
+                        "3",
+                        "23"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "webapi",
+                        "apiproduct",
+                        "getproductlist"
+                      ],
+                      "query": [
+                        {
+                          "key": "productids",
+                          "value": ""
+                        },
+                        {
+                          "key": "siteID",
+                          "value": "2"
+                        },
+                        {
+                          "key": "provinceID",
+                          "value": "3"
+                        },
+                        {
+                          "key": "langID",
+                          "value": "vi-VN\n"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "_postman_id": "78554861-c8c1-48a7-9a99-6166f50bcdd7",
+              "_postman_isSubFolder": true
+            },
+            {
+              "name": "Block phụ kiện nổi bật TGDD, DMX",
+              "item": [
+                {
+                  "name": "GetProductIdsFromHtmlId",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "a1312440-fd14-408d-b4f8-8dd605434b4f",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "_postman_id": "e13dd093-63c0-4625-b6fd-97dc42c6ed72",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3465&siteID=1&langID=vi-VN",
+                      "protocol": "http",
+                      "host": [
+                        "172",
+                        "16",
+                        "3",
+                        "23"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "webapi",
+                        "apisystem",
+                        "gethtmlinfo"
+                      ],
+                      "query": [
+                        {
+                          "key": "htmlID",
+                          "value": "3465"
+                        },
+                        {
+                          "key": "siteID",
+                          "value": "1"
+                        },
+                        {
+                          "key": "langID",
+                          "value": "vi-VN"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetProductList",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "bab528a4-f93b-4266-937a-5020007d785c",
+                        "exec": [
+                          "pm.sendRequest({\r",
+                          "    url: 'http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3465&siteID=1&langID=vi-VN',\r",
+                          "    method: 'GET',\r",
+                          "}, function (err, res) {\r",
+                          "    let content = res.json().InfoLangBO.Content;\r",
+                          "    console.log(content);\r",
+                          "    pm.request.url.query.idx(0).value = content.replace(/<[^>]*>?/gm, '');\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "_postman_id": "5f71436b-8bbd-4e9d-8fb3-8e887bc3162f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://172.16.3.23/api/v2/webapi/apiproduct/getproductlist?productids=&siteID={{site_id}}&provinceID=3&langID=vi-VN",
+                      "protocol": "http",
+                      "host": [
+                        "172",
+                        "16",
+                        "3",
+                        "23"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "webapi",
+                        "apiproduct",
+                        "getproductlist"
+                      ],
+                      "query": [
+                        {
+                          "key": "productids",
+                          "value": ""
+                        },
+                        {
+                          "key": "siteID",
+                          "value": "{{site_id}}"
+                        },
+                        {
+                          "key": "provinceID",
+                          "value": "3"
+                        },
+                        {
+                          "key": "langID",
+                          "value": "vi-VN"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "_postman_id": "1781abfc-16fb-42f0-ab56-a93f7689412c",
+              "_postman_isSubFolder": true
+            },
+            {
+              "name": "Block đồng hồ TGDD, DMX",
+              "item": [
+                {
+                  "name": "Tab đồng hồ thông minh",
+                  "item": [
+                    {
+                      "name": "GetProductIdsFromHtmlId",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "cbb76fae-561c-4307-9de9-079479ec2110",
+                            "exec": [
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "94030c28-90b2-45b9-872f-b0c4fe3ef382",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3482&siteID=1&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apisystem",
+                            "gethtmlinfo"
+                          ],
+                          "query": [
+                            {
+                              "key": "htmlID",
+                              "value": "3482"
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "1"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "GetProductList",
+                      "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "d866f5c9-bb97-4350-932b-dda9fb0ff85f",
+                            "exec": [
+                              "pm.sendRequest({\r",
+                              "    url: 'http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3482&siteID=1&langID=vi-VN',\r",
+                              "    method: 'GET',\r",
+                              "}, function (err, res) {\r",
+                              "    let content = res.json().InfoLangBO.Content;\r",
+                              "    console.log(content);\r",
+                              "    pm.request.url.query.idx(0).value = content.replace(/<[^>]*>?/gm, '');\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "8fe289d6-07b9-44c6-a778-ce83c0b711bf",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apiproduct/getproductlist?productids=&siteID={{site_id}}&provinceID=3&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apiproduct",
+                            "getproductlist"
+                          ],
+                          "query": [
+                            {
+                              "key": "productids",
+                              "value": ""
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "{{site_id}}"
+                            },
+                            {
+                              "key": "provinceID",
+                              "value": "3"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    }
+                  ],
+                  "_postman_id": "b122d986-e8cc-4288-af44-9ff54eafe6ef",
+                  "_postman_isSubFolder": true
+                },
+                {
+                  "name": "Tab đồng hồ thời trang nam",
+                  "item": [
+                    {
+                      "name": "GetProductIdsFromHtmlId",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "fdf1f70f-f76b-4638-bd9f-ecc7120281f3",
+                            "exec": [
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "de981cd1-f504-4426-9128-f6779e54bb4f",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3483&siteID=1&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apisystem",
+                            "gethtmlinfo"
+                          ],
+                          "query": [
+                            {
+                              "key": "htmlID",
+                              "value": "3483"
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "1"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "GetProductList",
+                      "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "ae108a1e-94b1-4cdd-a285-da87578ba622",
+                            "exec": [
+                              "pm.sendRequest({\r",
+                              "    url: 'http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3483&siteID=1&langID=vi-VN',\r",
+                              "    method: 'GET',\r",
+                              "}, function (err, res) {\r",
+                              "    let content = res.json().InfoLangBO.Content;\r",
+                              "    console.log(content);\r",
+                              "    pm.request.url.query.idx(0).value = content.replace(/<[^>]*>?/gm, '');\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "e14b8f15-76ea-4499-94c0-84e36fcdd1d7",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apiproduct/getproductlist?productids=&siteID={{site_id}}&provinceID=3&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apiproduct",
+                            "getproductlist"
+                          ],
+                          "query": [
+                            {
+                              "key": "productids",
+                              "value": ""
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "{{site_id}}"
+                            },
+                            {
+                              "key": "provinceID",
+                              "value": "3"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    }
+                  ],
+                  "_postman_id": "38058813-e10e-4f16-88b0-a162b754cda7",
+                  "_postman_isSubFolder": true
+                },
+                {
+                  "name": "Tab đồng hồ thời trang nữ",
+                  "item": [
+                    {
+                      "name": "GetProductIdsFromHtmlId",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "831cd7f6-db4b-4cb5-a490-dba92cbb1ae1",
+                            "exec": [
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "6c6e884d-471e-44cb-bae6-abec3166c556",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3484&siteID=1&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apisystem",
+                            "gethtmlinfo"
+                          ],
+                          "query": [
+                            {
+                              "key": "htmlID",
+                              "value": "3484"
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "1"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "GetProductList",
+                      "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "06ead6c8-b621-466f-86c1-fc0a141fcf2c",
+                            "exec": [
+                              "pm.sendRequest({\r",
+                              "    url: 'http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3484&siteID=1&langID=vi-VN',\r",
+                              "    method: 'GET',\r",
+                              "}, function (err, res) {\r",
+                              "    let content = res.json().InfoLangBO.Content;\r",
+                              "    console.log(content);\r",
+                              "    pm.request.url.query.idx(0).value = content.replace(/<[^>]*>?/gm, '');\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "f19b9990-a7dd-445e-91d9-f7ded3845bae",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apiproduct/getproductlist?productids=&siteID={{site_id}}&provinceID=3&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apiproduct",
+                            "getproductlist"
+                          ],
+                          "query": [
+                            {
+                              "key": "productids",
+                              "value": ""
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "{{site_id}}"
+                            },
+                            {
+                              "key": "provinceID",
+                              "value": "3"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    }
+                  ],
+                  "_postman_id": "61ae7a5b-fe3f-4162-b7b7-00676b01cca9",
+                  "_postman_isSubFolder": true
+                },
+                {
+                  "name": "Tab định vị trẻ em",
+                  "item": [
+                    {
+                      "name": "GetProductIdsFromHtmlId",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "5a6bc0ad-3233-49c2-bd42-b97ef23ccce6",
+                            "exec": [
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "0fe0e859-49c4-49ea-9f68-862194820584",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3485&siteID=1&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apisystem",
+                            "gethtmlinfo"
+                          ],
+                          "query": [
+                            {
+                              "key": "htmlID",
+                              "value": "3485"
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "1"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "GetProductList",
+                      "event": [
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "0e0594b7-1cd7-4d9a-89b2-20cf18e7a8d9",
+                            "exec": [
+                              "pm.sendRequest({\r",
+                              "    url: 'http://172.16.3.23/api/v2/webapi/apisystem/gethtmlinfo?htmlID=3485&siteID=1&langID=vi-VN',\r",
+                              "    method: 'GET',\r",
+                              "}, function (err, res) {\r",
+                              "    let content = res.json().InfoLangBO.Content;\r",
+                              "    console.log(content);\r",
+                              "    pm.request.url.query.idx(0).value = content.replace(/<[^>]*>?/gm, '');\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "_postman_id": "a263b095-be41-4c91-a5b5-2f227774e9fe",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://172.16.3.23/api/v2/webapi/apiproduct/getproductlist?productids=&siteID={{site_id}}&provinceID=3&langID=vi-VN",
+                          "protocol": "http",
+                          "host": [
+                            "172",
+                            "16",
+                            "3",
+                            "23"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "webapi",
+                            "apiproduct",
+                            "getproductlist"
+                          ],
+                          "query": [
+                            {
+                              "key": "productids",
+                              "value": ""
+                            },
+                            {
+                              "key": "siteID",
+                              "value": "{{site_id}}"
+                            },
+                            {
+                              "key": "provinceID",
+                              "value": "3"
+                            },
+                            {
+                              "key": "langID",
+                              "value": "vi-VN"
+                            }
+                          ]
+                        }
+                      },
+                      "response": []
+                    }
+                  ],
+                  "_postman_id": "92b1aaa4-72a5-4893-a589-09cfa4b9827b",
+                  "_postman_isSubFolder": true
+                }
+              ],
+              "_postman_id": "e504745a-e826-430a-902f-7d84a230faa8",
+              "_postman_isSubFolder": true
+            },
+            {
+              "name": "Block điện thoại nổi bật",
+              "_postman_id": "66092536-4d53-4bde-a7a0-e902740631e1",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"IsCacheCategory\": false,\r\n    \"CategoryId\": 42,\r\n    \"CategoryIdList\": null,\r\n    \"HasPromotion\": 0,\r\n    \"IsSearchLike\": false,\r\n    \"Keyword\": null,\r\n    \"LanguageID\": \"vi-VN\",\r\n    \"ManufacturerId\": 0,\r\n    \"ManufacturerIdList\": null,\r\n    \"OrderByPrice\": null,\r\n    \"PageIndex\": 0,\r\n    \"PageSize\": 10,\r\n    \"PriceFrom\": 0,\r\n    \"PriceTo\": 0,\r\n    \"ProductID\": 0,\r\n    \"storeID\": 0,\r\n    \"PropSearch\": null,\r\n    \"PropertyDetailFilters\": null,\r\n    \"ProvinceId\": 3,\r\n    \"SearchType\": null,\r\n    \"SearchFlags\": [],\r\n    \"SiteId\": {{site_id}},\r\n    \"WebStatus\": 0,\r\n    \"WebStatusIDList\": [\r\n        2,\r\n        3,\r\n        4,\r\n        9,\r\n        11\r\n    ],\r\n    \"ExtensionObject\": 0,\r\n    \"SearchNumberType\": 0,\r\n    \"TopSoldProduct\": 0,\r\n    \"IsSearchOnlineOnly\": false,\r\n    \"Orders\": [\r\n        \"FEATURE\",\r\n        \"PRICE_DISCOUNT_DESC\"\r\n    ],\r\n    \"SearchOrder\": null,\r\n    \"propValueIDs\": null,\r\n    \"ProductIdEnumerable\": null,\r\n    \"PriceRanges\": null,\r\n    \"propRanges\": null,\r\n    \"ListManufacturename\": null,\r\n    \"sortingPropertyID\": 0,\r\n    \"CreatedDateFrom\": null,\r\n    \"CreatedDateTo\": null,\r\n    \"ActivedDateFrom\": null,\r\n    \"ActivedDateTo\": null,\r\n    \"listGenderID\": null,\r\n    \"listSportID\": null,\r\n    \"listBlueManufacturerID\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://172.16.3.23/api/v2/webapi/apiproduct/searchproductquery"
+              },
+              "response": []
+            },
+            {
+              "name": "Block laptop nổi bật",
+              "_postman_id": "20eabdea-90ac-4cb7-9b8b-4dea519e4ec9",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"IsCacheCategory\": false,\r\n    \"CategoryId\": 44,\r\n    \"CategoryIdList\": null,\r\n    \"HasPromotion\": 0,\r\n    \"IsSearchLike\": false,\r\n    \"Keyword\": null,\r\n    \"LanguageID\": \"vi-VN\",\r\n    \"ManufacturerId\": 0,\r\n    \"ManufacturerIdList\": null,\r\n    \"OrderByPrice\": null,\r\n    \"PageIndex\": 0,\r\n    \"PageSize\": 8,\r\n    \"PriceFrom\": 0,\r\n    \"PriceTo\": 0,\r\n    \"ProductID\": 0,\r\n    \"storeID\": 0,\r\n    \"PropSearch\": null,\r\n    \"PropertyDetailFilters\": null,\r\n    \"ProvinceId\": 3,\r\n    \"SearchType\": null,\r\n    \"SearchFlags\": [],\r\n    \"SiteId\": {{site_id}},\r\n    \"WebStatus\": 0,\r\n    \"WebStatusIDList\": [\r\n        2,\r\n        3,\r\n        4,\r\n        9,\r\n        11\r\n    ],\r\n    \"ExtensionObject\": 0,\r\n    \"SearchNumberType\": 0,\r\n    \"TopSoldProduct\": 3,\r\n    \"IsSearchOnlineOnly\": false,\r\n    \"Orders\": [\r\n        \"FEATURE\",\r\n        \"PRICE_DISCOUNT_DESC\"\r\n    ],\r\n    \"SearchOrder\": null,\r\n    \"propValueIDs\": null,\r\n    \"ProductIdEnumerable\": null,\r\n    \"PriceRanges\": null,\r\n    \"propRanges\": null,\r\n    \"ListManufacturename\": null,\r\n    \"sortingPropertyID\": 0,\r\n    \"CreatedDateFrom\": null,\r\n    \"CreatedDateTo\": null,\r\n    \"ActivedDateFrom\": null,\r\n    \"ActivedDateTo\": null,\r\n    \"listGenderID\": null,\r\n    \"listSportID\": null,\r\n    \"listBlueManufacturerID\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://172.16.3.23/api/v2/webapi/apiproduct/searchproductquery"
+              },
+              "response": []
+            },
+            {
+              "name": "Block tablet nổi bật",
+              "_postman_id": "a7055637-b0cc-4fcf-a703-0b123b670726",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"IsCacheCategory\": false,\r\n    \"CategoryId\": 522,\r\n    \"CategoryIdList\": null,\r\n    \"HasPromotion\": 0,\r\n    \"IsSearchLike\": false,\r\n    \"Keyword\": null,\r\n    \"LanguageID\": \"vi-VN\",\r\n    \"ManufacturerId\": 0,\r\n    \"ManufacturerIdList\": null,\r\n    \"OrderByPrice\": null,\r\n    \"PageIndex\": 0,\r\n    \"PageSize\": 2,\r\n    \"PriceFrom\": 0,\r\n    \"PriceTo\": 0,\r\n    \"ProductID\": 0,\r\n    \"storeID\": 0,\r\n    \"PropSearch\": null,\r\n    \"PropertyDetailFilters\": null,\r\n    \"ProvinceId\": 3,\r\n    \"SearchType\": null,\r\n    \"SearchFlags\": [],\r\n    \"SiteId\": {{site_id}},\r\n    \"WebStatus\": 0,\r\n    \"WebStatusIDList\": [\r\n        2,\r\n        3,\r\n        4,\r\n        9,\r\n        11\r\n    ],\r\n    \"ExtensionObject\": 0,\r\n    \"SearchNumberType\": 0,\r\n    \"TopSoldProduct\": 0,\r\n    \"IsSearchOnlineOnly\": false,\r\n    \"Orders\": [\r\n        \"FEATURE\",\r\n        \"PRICE_DISCOUNT_DESC\"\r\n    ],\r\n    \"SearchOrder\": null,\r\n    \"propValueIDs\": null,\r\n    \"ProductIdEnumerable\": null,\r\n    \"PriceRanges\": null,\r\n    \"propRanges\": null,\r\n    \"ListManufacturename\": null,\r\n    \"sortingPropertyID\": 0,\r\n    \"CreatedDateFrom\": null,\r\n    \"CreatedDateTo\": null,\r\n    \"ActivedDateFrom\": null,\r\n    \"ActivedDateTo\": null,\r\n    \"listGenderID\": null,\r\n    \"listSportID\": null,\r\n    \"listBlueManufacturerID\": null\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://172.16.3.23/api/v2/webapi/apiproduct/searchproductquery"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "b7a2a956-1cce-46de-89b4-fa86a6177187",
+          "description": "## Đổi site với các block giống nhau ở 2 site\n1. Chọn ***MWG*** env \n2. Chọn ***Environment quick look***\n3. Sửa ***CURRENT VALUE*** của ***site_id***",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "Trang NH",
+          "item": [
+            {
+              "name": "Search NH dtdd",
+              "_postman_id": "adc42fd7-2771-4b82-9baa-308c4ad693d4",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"IsCacheCategory\": false,\r\n    \"CategoryId\": 42,\r\n    \"CategoryIdList\": null,\r\n    \"HasPromotion\": 0,\r\n    \"IsSearchLike\": false,\r\n    \"Keyword\": null,\r\n    \"LanguageID\": \"vi-VN\",\r\n    \"ManufacturerId\": 0,\r\n    \"ManufacturerIdList\": [],\r\n    \"OrderByPrice\": null,\r\n    \"PageIndex\": 0,\r\n    \"PageSize\": 20,\r\n    \"PriceFrom\": 0,\r\n    \"PriceTo\": 0,\r\n    \"ProductID\": 0,\r\n    \"PropSearch\": null,\r\n    \"PropertyDetailFilters\": null,\r\n    \"ProvinceId\": 3,\r\n    \"SearchType\": null,\r\n    \"SearchFlags\": [\r\n        \"COMBINEDPRODUCT\"\r\n    ],\r\n    \"SiteId\": 2,\r\n    \"WebStatus\": 0,\r\n    \"WebStatusIDList\": [\r\n        2,\r\n        3,\r\n        4,\r\n        8,\r\n        9,\r\n        11\r\n    ],\r\n    \"ExtensionObject\": 0,\r\n    \"SearchNumberType\": 0,\r\n    \"TopSoldProduct\": 0,\r\n    \"IsSearchOnlineOnly\": false,\r\n    \"Orders\": [\r\n        \"FEATURE\",\r\n        \"PRICE_DISCOUNT_DESC\"\r\n    ],\r\n    \"SearchOrder\": null,\r\n    \"propValueIDs\": [],\r\n    \"ProductIdEnumerable\": null,\r\n    \"PriceRanges\": [],\r\n    \"propRanges\": null,\r\n    \"ListManufacturename\": [],\r\n    \"sortingPropertyID\": 0,\r\n    \"CreatedDateFrom\": null,\r\n    \"CreatedDateTo\": null\r\n}",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "{{api_java_live}}/apiproduct/searchproductquery"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "1aa7ef61-728c-42c1-93a0-4f45c2f22c03",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "Sitemap TGDD",
+          "item": [
+            {
+              "name": "Sitemap products",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "c87343a8-12f7-43cb-a6e4-e8d51b513b60",
+                    "exec": [
+                      "pm.environment.set(\"java_api_columns\", \"ProductID, ProductName, ProductSoldCount\");\r",
+                      "pm.sendRequest('example.com');\r",
+                      "eval(pm.environment.get(\"table_visualize_java_api\"))();"
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "9ed604d2-a589-4ab7-ba4a-7ece871bb5c9",
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "5122500f-a8fc-466b-b9e4-965bb423794b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "accept",
+                    "value": "*/*"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"SiteId\": 1,\r\n    \"ProvinceId\": 3,\r\n    \"CategoryId\": 0,\r\n    \"PageSize\": 5,\r\n    \"WebStatusIDList\": [\r\n        2,\r\n        4,\r\n        8,\r\n        9,\r\n        11\r\n    ],\r\n    \"ActivedDateFrom\": \"2021-07-01\",\r\n    \"ActivedDateTo\": \"2021-07-31\"\r\n}",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "{{api_java_staging}}/apiproduct/searchproductquery"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "30eb0787-a6ca-43e2-b373-5475c85f8924",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "Trang bảo hành",
+          "item": [
+            {
+              "name": "GetWarrantyInfo",
+              "_postman_id": "8faa232e-c275-4f8a-b45b-2541fcd3f452",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/GetWarrantyInfo",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <GetWarrantyInfo xmlns=\"http://tempuri.org/\">\r\n            <strAuthen>werwerewrw32423!@4#123</strAuthen>\r\n            <objResultMessage>\r\n                <IsError>false</IsError>\r\n                <ErrorType>No_Error</ErrorType>\r\n                <ErrorCode>0</ErrorCode>\r\n            </objResultMessage>\r\n            <intBrandID>-1</intBrandID>\r\n            <strListIMEI>354581110592418</strListIMEI>\r\n            <strCustomerPhone/>\r\n        </GetWarrantyInfo>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://erpwebsupportservices.thegioididong.com/Web/WSWeb.asmx"
+              },
+              "response": []
+            },
+            {
+              "name": "GetAllManu",
+              "_postman_id": "98090565-f1ec-43fc-b865-fb77d6664c67",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/ProductWarrantyManuSelect",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <ProductWarrantyManuSelect xmlns=\"http://tempuri.org/\">\r\n            <intWarrantyManuID>-1</intWarrantyManuID>\r\n        </ProductWarrantyManuSelect>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://webservice.thegioididong.com/CategorySvc.asmx"
+              },
+              "response": []
+            },
+            {
+              "name": "GetManuByCateAndSite",
+              "_postman_id": "5ea0020b-3254-466e-81da-b14ce0a28d09",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/ProductWarrantyManuSelectWithCateAndSite",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n  <soap:Body>\r\n    <ProductWarrantyManuSelectWithCateAndSite xmlns=\"http://tempuri.org/\">\r\n      <intWarrantyManuID>-1</intWarrantyManuID>\r\n      <categoryID>42</categoryID>\r\n      <SiteID>1</SiteID>\r\n    </ProductWarrantyManuSelectWithCateAndSite>\r\n  </soap:Body>\r\n</soap:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://webservice.thegioididong.com/CategorySvc.asmx"
+              },
+              "response": []
+            },
+            {
+              "name": "GetWarrantyCenterByManuAndProvince",
+              "_postman_id": "f9b81b5f-21b4-42e2-8bf7-bbc8a6d317af",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/GetProductWarrantyCenterByManufacturerAndProvince",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <GetProductWarrantyCenterByManufacturerAndProvince xmlns=\"http://tempuri.org/\">\r\n            <intManufacturerID>226</intManufacturerID>\r\n            <intProvinceID>-1</intProvinceID>\r\n        </GetProductWarrantyCenterByManufacturerAndProvince>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://webservice.thegioididong.com/CategorySvc.asmx"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "ef51ab4a-0e0f-48f2-9dce-8d9edbefe0e6",
+          "_postman_isSubFolder": true
+        }
+      ],
+      "_postman_id": "0d13e9ad-1272-4f55-8d84-fc02a82d1f01"
+    },
+    {
+      "name": "BlueSport",
+      "item": [
+        {
+          "name": "Script",
+          "item": [
+            {
+              "name": "Check null, empty ProductDto",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "85db5f00-ca87-40f9-a7b8-0579e7701b1a",
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "0dcc44fc-b5d9-4f2d-a37f-00c9ae09f256",
+                    "exec": [
+                      "let jsonResponse = pm.response.json().productList ?? pm.response.json();\r",
+                      "let array = Array.isArray(jsonResponse) ? jsonResponse : new Array(jsonResponse);\r",
+                      "\r",
+                      "array.forEach(e => pm.test(`Check null, empty ProductDto.ProductID: ${e.ProductID}`, function () {\r",
+                      "    e.ProductManuBO = e.ManufacturerBO;\r",
+                      "    logNullField(e);\r",
+                      "    pm.expect(isNullOrEmptyProductDto(e)).to.be.false;\r",
+                      "}));\r",
+                      "\r",
+                      "function isNullOrEmptyProductDto(productDto) {    \r",
+                      "    return productDto == null || productDto.ProductID <= 0 || productDto.ProductCategoryBO == null || productDto.ProductLanguageBO == null || productDto.ProductManuBO == null;\r",
+                      "}\r",
+                      "\r",
+                      "function logNullField(productDto) {\r",
+                      "    let logObj = Object.assign({}, productDto);\r",
+                      "    if (logObj != null) {\r",
+                      "        let checkNullField = ['ProductCategoryBO', 'ProductLanguageBO', 'ManufacturerBO'];\r",
+                      "        for (let field in logObj) {\r",
+                      "            if (field == 'ProductID' || checkNullField.includes(field) && logObj[field] == null)\r",
+                      "                continue;\r",
+                      "            delete logObj[field];\r",
+                      "        }\r",
+                      "    }\r",
+                      "    if (isNullOrEmptyProductDto(productDto))\r",
+                      "        console.log(logObj);\r",
+                      "}"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "1f8791ac-87f4-4a80-ba9f-ef9a253a34b3",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": ""
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "0e80e289-3b9d-42d6-ad5b-6ee69f0796ed",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "SearchStore",
+          "_postman_id": "6d608d63-3892-4f0a-88ac-077a5e60c457",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"Distance\": 0.0,\r\n    \"DistrictId\": 0,\r\n    \"ProvinceId\": 0,\r\n    \"ExtensionObject\": 0,\r\n    \"IsSaleStore\": 1,\r\n    \"IsSearchLike\": false,\r\n    \"SearchType\": 2,\r\n    \"IsShowweb\": 1,\r\n    \"Keyword\": \"\",\r\n    \"Lat\": 0.0,\r\n    \"Lon\": 0.0,\r\n    \"MaxRecords\": 0,\r\n    \"PageIndex\": 0,\r\n    \"PageSize\": 20,\r\n    \"siteIDList\": \"14\",\r\n    \"termUrl\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://172.16.2.198:2060/apicategory/searchstorelatlonbysite"
+          },
+          "response": []
+        },
+        {
+          "name": "GetProgram",
+          "_postman_id": "f830dafe-93e0-47e4-bd5a-8ec5b56566bf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "SOAPAction",
+                "value": "http://tempuri.org/ProgramGet",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "text/xml; charset=utf-8",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n        <ProgramGet xmlns=\"http://tempuri.org/\">\r\n            <programId>290</programId>\r\n        </ProgramGet>\r\n    </s:Body>\r\n</s:Envelope>",
+              "options": {
+                "raw": {}
+              }
+            },
+            "url": "webservice.thegioididong.com/GamesSvc.asmx"
+          },
+          "response": []
+        },
+        {
+          "name": "GetListGroupByProgram",
+          "_postman_id": "fbc3adc4-20ae-4f94-817b-37750b5cc3a4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "SOAPAction",
+                "value": "http://tempuri.org/GroupListByProgram"
+              },
+              {
+                "key": "Content-Type",
+                "value": "text/xml; charset=utf-8"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n        <GroupListByProgram xmlns=\"http://tempuri.org/\">\n            <programId>290</programId>\n        </GroupListByProgram>\n    </s:Body>\n</s:Envelope>",
+              "options": {
+                "raw": {}
+              }
+            },
+            "url": "webservice.thegioididong.com/GamesSvc.asmx"
+          },
+          "response": []
+        },
+        {
+          "name": "ProductRelateTab1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b5cb7742-d697-40ea-954b-81d03293295a",
+                "exec": [
+                  "let jsonResponse = pm.response.json().productList ?? pm.response.json();\r",
+                  "let array = Array.isArray(jsonResponse) ? jsonResponse : new Array(jsonResponse);\r",
+                  "\r",
+                  "array.forEach(e => pm.test(`Check null, empty ProductDto.ProductID: ${e.ProductID}`, function () {\r",
+                  "    e.ProductManuBO = e.ManufacturerBO;\r",
+                  "    logNullField(e);\r",
+                  "    pm.expect(isNullOrEmptyProductDto(e)).to.be.false;\r",
+                  "}));\r",
+                  "\r",
+                  "function isNullOrEmptyProductDto(productDto) {    \r",
+                  "    return productDto == null || productDto.ProductID <= 0 || productDto.ProductCategoryBO == null || productDto.ProductLanguageBO == null || productDto.ProductManuBO == null;\r",
+                  "}\r",
+                  "\r",
+                  "function logNullField(productDto) {\r",
+                  "    let logObj = Object.assign({}, productDto);\r",
+                  "    if (logObj != null) {\r",
+                  "        let checkNullField = ['ProductCategoryBO', 'ProductLanguageBO', 'ManufacturerBO'];\r",
+                  "        for (let field in logObj) {\r",
+                  "            if (field == 'ProductID' || checkNullField.includes(field) && logObj[field] == null)\r",
+                  "                continue;\r",
+                  "            delete logObj[field];\r",
+                  "        }\r",
+                  "    }\r",
+                  "    if (isNullOrEmptyProductDto(productDto))\r",
+                  "        console.log(logObj);\r",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "c8c949a0-1d59-4244-951e-34f21645b658",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "71920d6b-2d94-43aa-8146-b83d641b9430",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"GenderIDList\": null,\r\n    \"IsSuggestManu\": true,\r\n    \"Lang\": \"vi-VN\",\r\n    \"ProductID\": 240045,\r\n    \"Prop\": [\r\n        {\r\n            \"PropID\": 28247,\r\n            \"PropValueID\": 192974\r\n        }\r\n    ],\r\n    \"ProvinceID\": 3,\r\n    \"SiteID\": 14,\r\n    \"Tab\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://172.16.2.198:2060/apiproduct/getproductrelative"
+          },
+          "response": []
+        },
+        {
+          "name": "ProductRelateTab2",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "6e7e116d-ced3-409b-94f3-e1ebb685ea38",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "5a195eb7-1904-42d6-a252-dd2db1222bbf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"GenderIDList\": [\r\n        4\r\n    ],\r\n    \"IsSuggestManu\": false,\r\n    \"Lang\": \"vi-VN\",\r\n    \"ProductID\": 248111,\r\n    \"Prop\": null,\r\n    \"ProvinceID\": 3,\r\n    \"SiteID\": 14,\r\n    \"Tab\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://172.16.2.198:2060/apiproduct/getproductrelative"
+          },
+          "response": []
+        },
+        {
+          "name": "SearchProduct",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "4669e634-b43f-4a25-b69c-3857f029afdb",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "be9c8b32-9a43-440f-8182-d20e17d8d090",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"IsCacheCategory\": false,\r\n    \"CategoryId\": 10101,\r\n    \"CategoryIdList\": null,\r\n    \"HasPromotion\": 0,\r\n    \"IsSearchLike\": false,\r\n    \"Keyword\": null,\r\n    \"LanguageID\": \"vi-VN\",\r\n    \"ManufacturerId\": 0,\r\n    \"ManufacturerIdList\": null,\r\n    \"OrderByPrice\": null,\r\n    \"PageIndex\": 0,\r\n    \"PageSize\": 8,\r\n    \"PriceFrom\": 0,\r\n    \"PriceTo\": 0,\r\n    \"ProductID\": 0,\r\n    \"PropSearch\": null,\r\n    \"PropertyDetailFilters\": null,\r\n    \"ProvinceId\": 3,\r\n    \"SearchType\": null,\r\n    \"SearchFlags\": [],\r\n    \"SiteId\": 14,\r\n    \"WebStatus\": 0,\r\n    \"WebStatusIDList\": [\r\n        2,\r\n        4,\r\n        8,\r\n        11\r\n    ],\r\n    \"ExtensionObject\": 0,\r\n    \"SearchNumberType\": 0,\r\n    \"TopSoldProduct\": 3,\r\n    \"IsSearchOnlineOnly\": false,\r\n    \"Orders\": [\r\n        \"FEATURE\",\r\n        \"PRICE_DISCOUNT_DESC\"\r\n    ],\r\n    \"SearchOrder\": null,\r\n    \"propValueIDs\": null,\r\n    \"ProductIdEnumerable\": null,\r\n    \"PriceRanges\": null,\r\n    \"propRanges\": null,\r\n    \"ListManufacturename\": null,\r\n    \"sortingPropertyID\": 0,\r\n    \"CreatedDateFrom\": null,\r\n    \"CreatedDateTo\": null,\r\n    \"ActivedDateFrom\": null,\r\n    \"ActivedDateTo\": null,\r\n    \"listGenderID\": [\r\n        4\r\n    ],\r\n    \"listSportID\": null,\r\n    \"listBlueManufacturerID\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://172.16.2.198:2060/apiproduct/searchproductquery"
+          },
+          "response": []
+        },
+        {
+          "name": "GetProduct",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "51671682-8aef-4aec-afc6-c919b02a6293",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "2a6f28fd-8405-4a28-886f-ba225de72571",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://172.16.2.198:2060/apiproduct/getproduct?productID=244390&siteID=14&provinceID=3&lang=vi-VN",
+              "protocol": "http",
+              "host": [
+                "172",
+                "16",
+                "2",
+                "198"
+              ],
+              "port": "2060",
+              "path": [
+                "apiproduct",
+                "getproduct"
+              ],
+              "query": [
+                {
+                  "key": "productID",
+                  "value": "244390"
+                },
+                {
+                  "key": "siteID",
+                  "value": "14"
+                },
+                {
+                  "key": "provinceID",
+                  "value": "3"
+                },
+                {
+                  "key": "lang",
+                  "value": "vi-VN"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "_postman_id": "f05abf0a-fc3e-4438-a776-cca0eb5535d1",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": null
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "5ba2f685-7c9a-4e25-b65e-5958f7562868"
+    },
+    {
+      "name": "AnKhang",
+      "item": [
+        {
+          "name": "Location",
+          "item": [
+            {
+              "name": "GetAllProvince",
+              "_postman_id": "ad28da33-9691-47ed-807e-e914b55ba0cb",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/ICategory/SearchStoreLatLon",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body>\r\n        <SearchStoreLatLon xmlns=\"http://tempuri.org/\">\r\n            <qry xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n                <a:_x003C_Distance_x003E_k__BackingField>0</a:_x003C_Distance_x003E_k__BackingField>\r\n                <a:_x003C_DistrictId_x003E_k__BackingField>0</a:_x003C_DistrictId_x003E_k__BackingField>\r\n                <a:_x003C_ExtensionObject_x003E_k__BackingField>0</a:_x003C_ExtensionObject_x003E_k__BackingField>\r\n                <a:_x003C_FlagStore_x003E_k__BackingField>NONE</a:_x003C_FlagStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSalesStore_x003E_k__BackingField>1</a:_x003C_IsSalesStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSearchLike_x003E_k__BackingField>false</a:_x003C_IsSearchLike_x003E_k__BackingField>\r\n                <a:_x003C_IsShowweb_x003E_k__BackingField>0</a:_x003C_IsShowweb_x003E_k__BackingField>\r\n                <a:_x003C_Keyword_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_Lat_x003E_k__BackingField>0</a:_x003C_Lat_x003E_k__BackingField>\r\n                <a:_x003C_Lon_x003E_k__BackingField>0</a:_x003C_Lon_x003E_k__BackingField>\r\n                <a:_x003C_MaxRecords_x003E_k__BackingField>0</a:_x003C_MaxRecords_x003E_k__BackingField>\r\n                <a:_x003C_PageIndex_x003E_k__BackingField>0</a:_x003C_PageIndex_x003E_k__BackingField>\r\n                <a:_x003C_PageSize_x003E_k__BackingField>1000</a:_x003C_PageSize_x003E_k__BackingField>\r\n                <a:_x003C_ProvinceId_x003E_k__BackingField>0</a:_x003C_ProvinceId_x003E_k__BackingField>\r\n                <a:_x003C_SearchType_x003E_k__BackingField>2</a:_x003C_SearchType_x003E_k__BackingField>\r\n                <a:_x003C_WardId_x003E_k__BackingField>0</a:_x003C_WardId_x003E_k__BackingField>\r\n                <a:_x003C_termUrl_x003E_k__BackingField i:nil=\"true\"/>\r\n            </qry>\r\n            <intRowCount>0</intRowCount>\r\n        </SearchStoreLatLon>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://stagingapi.ankhang.com/v2/CategorySvc.svc"
+              },
+              "response": []
+            },
+            {
+              "name": "GetDistrictByProvince",
+              "_postman_id": "33964c1a-807e-478a-9fed-d2280babae6b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/ICategory/SearchStoreLatLon",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body>\r\n        <SearchStoreLatLon xmlns=\"http://tempuri.org/\">\r\n            <qry xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n                <a:_x003C_Distance_x003E_k__BackingField>0</a:_x003C_Distance_x003E_k__BackingField>\r\n                <a:_x003C_DistrictId_x003E_k__BackingField>0</a:_x003C_DistrictId_x003E_k__BackingField>\r\n                <a:_x003C_ExtensionObject_x003E_k__BackingField>0</a:_x003C_ExtensionObject_x003E_k__BackingField>\r\n                <a:_x003C_FlagStore_x003E_k__BackingField>NONE</a:_x003C_FlagStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSalesStore_x003E_k__BackingField>1</a:_x003C_IsSalesStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSearchLike_x003E_k__BackingField>false</a:_x003C_IsSearchLike_x003E_k__BackingField>\r\n                <a:_x003C_IsShowweb_x003E_k__BackingField>0</a:_x003C_IsShowweb_x003E_k__BackingField>\r\n                <a:_x003C_Keyword_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_Lat_x003E_k__BackingField>0</a:_x003C_Lat_x003E_k__BackingField>\r\n                <a:_x003C_Lon_x003E_k__BackingField>0</a:_x003C_Lon_x003E_k__BackingField>\r\n                <a:_x003C_MaxRecords_x003E_k__BackingField>0</a:_x003C_MaxRecords_x003E_k__BackingField>\r\n                <a:_x003C_PageIndex_x003E_k__BackingField>0</a:_x003C_PageIndex_x003E_k__BackingField>\r\n                <a:_x003C_PageSize_x003E_k__BackingField>1000</a:_x003C_PageSize_x003E_k__BackingField>\r\n                <a:_x003C_ProvinceId_x003E_k__BackingField>0</a:_x003C_ProvinceId_x003E_k__BackingField>\r\n                <a:_x003C_SearchType_x003E_k__BackingField>2</a:_x003C_SearchType_x003E_k__BackingField>\r\n                <a:_x003C_WardId_x003E_k__BackingField>0</a:_x003C_WardId_x003E_k__BackingField>\r\n                <a:_x003C_termUrl_x003E_k__BackingField i:nil=\"true\"/>\r\n            </qry>\r\n            <intRowCount>0</intRowCount>\r\n        </SearchStoreLatLon>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": {
+                  "raw": "http://172.16.2.198:2060/apicategory/getdistrictbyprovince?provinceID=3",
+                  "protocol": "http",
+                  "host": [
+                    "172",
+                    "16",
+                    "2",
+                    "198"
+                  ],
+                  "port": "2060",
+                  "path": [
+                    "apicategory",
+                    "getdistrictbyprovince"
+                  ],
+                  "query": [
+                    {
+                      "key": "provinceID",
+                      "value": "3"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GetWardByDistrict",
+              "_postman_id": "43a93abd-4f98-4dd9-b92d-df4e42c5a435",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/ICategory/SearchStoreLatLon",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body>\r\n        <SearchStoreLatLon xmlns=\"http://tempuri.org/\">\r\n            <qry xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n                <a:_x003C_Distance_x003E_k__BackingField>0</a:_x003C_Distance_x003E_k__BackingField>\r\n                <a:_x003C_DistrictId_x003E_k__BackingField>0</a:_x003C_DistrictId_x003E_k__BackingField>\r\n                <a:_x003C_ExtensionObject_x003E_k__BackingField>0</a:_x003C_ExtensionObject_x003E_k__BackingField>\r\n                <a:_x003C_FlagStore_x003E_k__BackingField>NONE</a:_x003C_FlagStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSalesStore_x003E_k__BackingField>1</a:_x003C_IsSalesStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSearchLike_x003E_k__BackingField>false</a:_x003C_IsSearchLike_x003E_k__BackingField>\r\n                <a:_x003C_IsShowweb_x003E_k__BackingField>0</a:_x003C_IsShowweb_x003E_k__BackingField>\r\n                <a:_x003C_Keyword_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_Lat_x003E_k__BackingField>0</a:_x003C_Lat_x003E_k__BackingField>\r\n                <a:_x003C_Lon_x003E_k__BackingField>0</a:_x003C_Lon_x003E_k__BackingField>\r\n                <a:_x003C_MaxRecords_x003E_k__BackingField>0</a:_x003C_MaxRecords_x003E_k__BackingField>\r\n                <a:_x003C_PageIndex_x003E_k__BackingField>0</a:_x003C_PageIndex_x003E_k__BackingField>\r\n                <a:_x003C_PageSize_x003E_k__BackingField>1000</a:_x003C_PageSize_x003E_k__BackingField>\r\n                <a:_x003C_ProvinceId_x003E_k__BackingField>0</a:_x003C_ProvinceId_x003E_k__BackingField>\r\n                <a:_x003C_SearchType_x003E_k__BackingField>2</a:_x003C_SearchType_x003E_k__BackingField>\r\n                <a:_x003C_WardId_x003E_k__BackingField>0</a:_x003C_WardId_x003E_k__BackingField>\r\n                <a:_x003C_termUrl_x003E_k__BackingField i:nil=\"true\"/>\r\n            </qry>\r\n            <intRowCount>0</intRowCount>\r\n        </SearchStoreLatLon>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": {
+                  "raw": "http://172.16.2.198:2060/apicategory/getwardbydistrict?districtID=2087",
+                  "protocol": "http",
+                  "host": [
+                    "172",
+                    "16",
+                    "2",
+                    "198"
+                  ],
+                  "port": "2060",
+                  "path": [
+                    "apicategory",
+                    "getwardbydistrict"
+                  ],
+                  "query": [
+                    {
+                      "key": "districtID",
+                      "value": "2087"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GetStoreByWard",
+              "_postman_id": "b97449f0-f93c-46ca-8ebd-964fe64495a4",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/ICategory/SearchStoreLatLon",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body>\r\n        <SearchStoreLatLon xmlns=\"http://tempuri.org/\">\r\n            <qry xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n                <a:_x003C_Distance_x003E_k__BackingField>0</a:_x003C_Distance_x003E_k__BackingField>\r\n                <a:_x003C_DistrictId_x003E_k__BackingField>0</a:_x003C_DistrictId_x003E_k__BackingField>\r\n                <a:_x003C_ExtensionObject_x003E_k__BackingField>0</a:_x003C_ExtensionObject_x003E_k__BackingField>\r\n                <a:_x003C_FlagStore_x003E_k__BackingField>NEARSTOREBYWARD</a:_x003C_FlagStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSalesStore_x003E_k__BackingField>1</a:_x003C_IsSalesStore_x003E_k__BackingField>\r\n                <a:_x003C_IsSearchLike_x003E_k__BackingField>false</a:_x003C_IsSearchLike_x003E_k__BackingField>\r\n                <a:_x003C_IsShowweb_x003E_k__BackingField>0</a:_x003C_IsShowweb_x003E_k__BackingField>\r\n                <a:_x003C_Keyword_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_Lat_x003E_k__BackingField>0</a:_x003C_Lat_x003E_k__BackingField>\r\n                <a:_x003C_Lon_x003E_k__BackingField>0</a:_x003C_Lon_x003E_k__BackingField>\r\n                <a:_x003C_MaxRecords_x003E_k__BackingField>0</a:_x003C_MaxRecords_x003E_k__BackingField>\r\n                <a:_x003C_PageIndex_x003E_k__BackingField>0</a:_x003C_PageIndex_x003E_k__BackingField>\r\n                <a:_x003C_PageSize_x003E_k__BackingField>10</a:_x003C_PageSize_x003E_k__BackingField>\r\n                <a:_x003C_ProvinceId_x003E_k__BackingField>0</a:_x003C_ProvinceId_x003E_k__BackingField>\r\n                <a:_x003C_SearchType_x003E_k__BackingField>2</a:_x003C_SearchType_x003E_k__BackingField>\r\n                <a:_x003C_WardId_x003E_k__BackingField>27125</a:_x003C_WardId_x003E_k__BackingField>\r\n                <a:_x003C_termUrl_x003E_k__BackingField i:nil=\"true\"/>\r\n            </qry>\r\n            <intRowCount>0</intRowCount>\r\n        </SearchStoreLatLon>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://stagingapi.ankhang.com/v2/CategorySvc.svc"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "1358fcd1-b5cd-4ffc-b0f8-18b44756b39a",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "Detail",
+          "item": [
+            {
+              "name": "RelateProduct",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "ebf2f0d9-3af2-46de-a9a5-0beb8167b5ea",
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "b343ce9a-85a3-4194-8127-5d3198bba44e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/IProductV2/GetListSuggestProductByProductID",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body>\r\n        <GetListSuggestProductByProductID xmlns=\"http://tempuri.org/\">\r\n            <productID>174330</productID>\r\n            <pageSize>12</pageSize>\r\n            <storeID>4831</storeID>\r\n        </GetListSuggestProductByProductID>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://stagingapi.ankhang.com/v2/ProductV2.svc"
+              },
+              "response": []
+            },
+            {
+              "name": "GetSamePriceProductByProdID",
+              "_postman_id": "4f2befbf-11bf-4a0d-abde-80d2d7a43240",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "SOAPAction",
+                    "value": "http://tempuri.org/IProductV2/GetSamePriceProductByProdID",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "text/xml; charset=utf-8",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body>\r\n        <GetSamePriceProductByProdID xmlns=\"http://tempuri.org/\">\r\n            <intSiteID>10</intSiteID>\r\n            <intProductID>130595</intProductID>\r\n            <intProvinceID>3</intProvinceID>\r\n            <strLang>vi-VN</strLang>\r\n            <storeID>4831</storeID>\r\n        </GetSamePriceProductByProdID>\r\n    </s:Body>\r\n</s:Envelope>",
+                  "options": {
+                    "raw": {}
+                  }
+                },
+                "url": "http://stagingapi.ankhang.com/v2/ProductV2.svc"
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "0b53e53d-f4d3-4b89-9094-9fcb77efece4",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "Script",
+          "item": [
+            {
+              "name": "Check quantity, price, webStatusId",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "deb57915-bc77-4864-a79a-fc0ec89a95c5",
+                    "exec": [
+                      "// Response body in json\r",
+                      "let requestHeader = pm.request.headers.get(\"SOAPAction\");\r",
+                      "let action = requestHeader.substring(requestHeader.lastIndexOf(\"/\") + 1)\r",
+                      "let responseJson = xml2Json(pm.response.text())[\"s:Envelope\"][\"s:Body\"][action + \"Response\"][action + \"Result\"][\"a:ProductBO\"];\r",
+                      "\r",
+                      "let productArray = toArray(responseJson);\r",
+                      "\r",
+                      "let allProductErpPrices = [];\r",
+                      "for (let product of productArray) {\r",
+                      "    let erpPrices = [];\r",
+                      "    //default price\r",
+                      "    let erpPrice = product[\"a:productErpPriceBOField\"];\r",
+                      "    if (erpPrice != null)\r",
+                      "        erpPrices.push(toErpPrice(erpPrice));\r",
+                      "\r",
+                      "    //other price\r",
+                      "    let priceNotBaseQuantity = toArray(product[\"a:_x003C_lstPriceNotBaseQuantity_x003E_k__BackingField\"][\"a:ProductErpPriceBO\"]);\r",
+                      "    for (let price of priceNotBaseQuantity)\r",
+                      "        if (price != null)\r",
+                      "            erpPrices.push(toErpPrice(price));\r",
+                      "\r",
+                      "    console.log(erpPrices);\r",
+                      "\r",
+                      "    allProductErpPrices.push(...erpPrices);\r",
+                      "}\r",
+                      "\r",
+                      "function toErpPrice(model) {\r",
+                      "    return {\r",
+                      "        productId: model[\"a:productIdField\"],\r",
+                      "        productCode: model[\"a:productCodeField\"],\r",
+                      "        unitName: model[\"a:_x003C_QuantityUnitName_x003E_k__BackingField\"],\r",
+                      "        quantity: model[\"a:productCodeTotalQuantityField\"],\r",
+                      "        price: model[\"a:priceField\"],\r",
+                      "        webStatusId: model[\"a:webStatusIdField\"],\r",
+                      "    };\r",
+                      "}\r",
+                      "\r",
+                      "function toArray(model) {\r",
+                      "    return Array.isArray(model) ? model : new Array(model);\r",
+                      "}\r",
+                      "\r",
+                      "//Visualize\r",
+                      "// Template (table)\r",
+                      "let style = `\r",
+                      "        <style>\r",
+                      "            body {\r",
+                      "                background-color: #212121;\r",
+                      "                counter-reset: Serial;\r",
+                      "            }\r",
+                      "\r",
+                      "            table {\r",
+                      "                width: 100%;\r",
+                      "                background-color: #212529; \r",
+                      "            }\r",
+                      "\r",
+                      "            td, th {\r",
+                      "                border: 3px solid #32383e;\r",
+                      "                color: white;\r",
+                      "            }\r",
+                      "\r",
+                      "            th {\r",
+                      "                background-color: #FF6C37;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:nth-child(even){\r",
+                      "                background-color: #2c3034;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:hover {\r",
+                      "                background-color: #707070;\r",
+                      "            }    \r",
+                      "\r",
+                      "            td:first-child, th:first-child {\r",
+                      "                padding: 12px 15px;\r",
+                      "            }    \r",
+                      "\r",
+                      "            // tr td:first-child:before\r",
+                      "            // {\r",
+                      "            //     counter-increment: Serial;      /* Increment the Serial counter */\r",
+                      "            //     content: counter(Serial); /* Display the counter */\r",
+                      "            // }\r",
+                      "        </style>`;\r",
+                      "\r",
+                      "let table = `\r",
+                      "        <table>\r",
+                      "            <tr>\r",
+                      "                <th>productId</th>\r",
+                      "                <th>productCode</th>\r",
+                      "                <th>unitName</th>\r",
+                      "                <th>quantity</th>\r",
+                      "                <th>price</th>\r",
+                      "                <th>webStatusId</th>\r",
+                      "            </tr>\r",
+                      "\r",
+                      "            {{#each response}}\r",
+                      "                <tr>\r",
+                      "                    <td>{{productId}}</td>\r",
+                      "                    <td>{{productCode}}</td>\r",
+                      "                    <td>{{unitName}}</td>\r",
+                      "                    <td>{{quantity}}</td>\r",
+                      "                    <td>{{price}}</td>\r",
+                      "                    <td>{{webStatusId}}</td>\r",
+                      "                </tr>\r",
+                      "            {{/each}}\r",
+                      "        </table>`;\r",
+                      "\r",
+                      "let template = style + table;\r",
+                      "\r",
+                      "// Set visualizer\r",
+                      "pm.visualizer.set(template, {\r",
+                      "    // Pass the response body parsed as JSON as `data`\r",
+                      "    response: allProductErpPrices\r",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "cfb734cd-fa6e-4ee4-b61a-12aead18bf5b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": null
+              },
+              "response": []
+            },
+            {
+              "name": "Check quantity cate",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "06149dad-f73e-4e9b-b00e-32305b4d87ea",
+                    "exec": [
+                      "// Response body in json\r",
+                      "let requestHeader = pm.request.headers.get(\"SOAPAction\");\r",
+                      "let action = requestHeader.substring(requestHeader.lastIndexOf(\"/\") + 1)\r",
+                      "let responseJson = xml2Json(pm.response.text())[\"s:Envelope\"][\"s:Body\"][action + \"Response\"][action + \"Result\"][\"a:ProductCategoryBO\"];\r",
+                      "\r",
+                      "let cateArray = toArray(responseJson);\r",
+                      "\r",
+                      "let allCates = [];\r",
+                      "for (let cate of cateArray) {\r",
+                      "    if (cate != null)\r",
+                      "        allCates.push(toCate(cate));\r",
+                      "}\r",
+                      "//sort by parentId\r",
+                      "allCates.sort((e, f) => e.parentId - f.parentId);\r",
+                      "\r",
+                      "function toCate(model) {\r",
+                      "    return {\r",
+                      "        parentId: model[\"a:parentIDField\"],\r",
+                      "        cateId: model[\"a:categoryIDField\"],\r",
+                      "        cateName: model[\"a:categoryNameField\"],\r",
+                      "        productCount: model[\"a:productCountField\"],\r",
+                      "        url: model[\"a:uRLField\"],\r",
+                      "    };\r",
+                      "}\r",
+                      "\r",
+                      "function toArray(model) {\r",
+                      "    return Array.isArray(model) ? model : new Array(model);\r",
+                      "}\r",
+                      "\r",
+                      "//Visualize\r",
+                      "// Template (table)\r",
+                      "let style = `\r",
+                      "        <style>\r",
+                      "            body {\r",
+                      "                background-color: #212121;\r",
+                      "                counter-reset: Serial;\r",
+                      "            }\r",
+                      "\r",
+                      "            table {\r",
+                      "                width: 100%;\r",
+                      "                background-color: #212529; \r",
+                      "            }\r",
+                      "\r",
+                      "            td, th {\r",
+                      "                border: 3px solid #32383e;\r",
+                      "                color: white;\r",
+                      "            }\r",
+                      "\r",
+                      "            th {\r",
+                      "                background-color: #FF6C37;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:nth-child(even){\r",
+                      "                background-color: #2c3034;\r",
+                      "            }\r",
+                      "\r",
+                      "            tr:hover {\r",
+                      "                background-color: #707070;\r",
+                      "            }    \r",
+                      "\r",
+                      "            td:first-child, th:first-child {\r",
+                      "                padding: 12px 15px;\r",
+                      "            }    \r",
+                      "\r",
+                      "            tr td:first-child:before\r",
+                      "            {\r",
+                      "                counter-increment: Serial;      /* Increment the Serial counter */\r",
+                      "                content: counter(Serial); /* Display the counter */\r",
+                      "            }\r",
+                      "        </style>`;\r",
+                      "\r",
+                      "let table = `\r",
+                      "        <table>\r",
+                      "            <tr>\r",
+                      "                <th>No.</th>\r",
+                      "                <th>parentId</th>\r",
+                      "                <th>cateId</th>\r",
+                      "                <th>cateName</th>\r",
+                      "                <th>productCount</th>\r",
+                      "                <th>url</th>\r",
+                      "            </tr>\r",
+                      "\r",
+                      "            {{#each response}}\r",
+                      "                <tr>\r",
+                      "                    <td></td>\r",
+                      "                    <td>{{parentId}}</td>\r",
+                      "                    <td>{{cateId}}</td>\r",
+                      "                    <td>{{cateName}}</td>\r",
+                      "                    <td>{{productCount}}</td>\r",
+                      "                    <td>{{url}}</td>\r",
+                      "                </tr>\r",
+                      "            {{/each}}\r",
+                      "        </table>`;\r",
+                      "\r",
+                      "let template = style + table;\r",
+                      "\r",
+                      "// Set visualizer\r",
+                      "pm.visualizer.set(template, {\r",
+                      "    // Pass the response body parsed as JSON as `data`\r",
+                      "    response: allCates\r",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "_postman_id": "1462b946-9bb3-4af5-89e9-a3620d3073e9",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": null
+              },
+              "response": []
+            }
+          ],
+          "_postman_id": "69d210c1-70aa-44be-8c94-dfea88fbc777",
+          "_postman_isSubFolder": true
+        },
+        {
+          "name": "AllCate",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "418c8016-be98-4f40-bd5e-ba05b0a35228",
+                "exec": [
+                  "// Response body in json\r",
+                  "let requestHeader = pm.request.headers.get(\"SOAPAction\");\r",
+                  "let action = requestHeader.substring(requestHeader.lastIndexOf(\"/\") + 1)\r",
+                  "let responseJson = xml2Json(pm.response.text())[\"s:Envelope\"][\"s:Body\"][action + \"Response\"][action + \"Result\"][\"a:ProductCategoryBO\"];\r",
+                  "\r",
+                  "let cateArray = toArray(responseJson);\r",
+                  "let domain = \"https://staging.nhathuocankhang.com\";\r",
+                  "\r",
+                  "let allCates = [];\r",
+                  "for (let cate of cateArray) {\r",
+                  "    if (cate != null) {\r",
+                  "        let model = toCate(cate)\r",
+                  "        if (model.cateId == 5792)\r",
+                  "            console.log(model.url);\r",
+                  "        allCates.push(model);\r",
+                  "    }\r",
+                  "}\r",
+                  "\r",
+                  "//sort by parentId\r",
+                  "allCates.sort((e, f) => e.parentId - f.parentId);\r",
+                  "\r",
+                  "function toCate(model) {\r",
+                  "    return {\r",
+                  "        parentId: model[\"a:parentIDField\"],\r",
+                  "        cateId: model[\"a:categoryIDField\"],\r",
+                  "        cateName: model[\"a:categoryNameField\"],\r",
+                  "        productCount: model[\"a:productCountField\"],\r",
+                  "        // url: `<a href=\"${domain}/${model[\"a:uRLField\"]}\">${model[\"a:categoryNameField\"]}</a>\"`,\r",
+                  "        url: model[\"a:uRLField\"],\r",
+                  "    };\r",
+                  "}\r",
+                  "\r",
+                  "function toArray(model) {\r",
+                  "    return Array.isArray(model) ? model : new Array(model);\r",
+                  "}\r",
+                  "\r",
+                  "//Visualize\r",
+                  "// Template (table)\r",
+                  "let style = `\r",
+                  "        <style>\r",
+                  "            body {\r",
+                  "                background-color: #212121;\r",
+                  "                counter-reset: Serial;\r",
+                  "            }\r",
+                  "\r",
+                  "            table {\r",
+                  "                width: 100%;\r",
+                  "                background-color: #212529; \r",
+                  "            }\r",
+                  "\r",
+                  "            td, th {\r",
+                  "                border: 3px solid #32383e;\r",
+                  "                color: white;\r",
+                  "            }\r",
+                  "\r",
+                  "            th {\r",
+                  "                background-color: #FF6C37;\r",
+                  "            }\r",
+                  "\r",
+                  "            tr:nth-child(even){\r",
+                  "                background-color: #2c3034;\r",
+                  "            }\r",
+                  "\r",
+                  "            tr:hover {\r",
+                  "                background-color: #707070;\r",
+                  "            }    \r",
+                  "\r",
+                  "            td:first-child, th:first-child {\r",
+                  "                padding: 12px 15px;\r",
+                  "            }    \r",
+                  "\r",
+                  "            tr td:first-child:before\r",
+                  "            {\r",
+                  "                counter-increment: Serial;      /* Increment the Serial counter */\r",
+                  "                content: counter(Serial); /* Display the counter */\r",
+                  "            }\r",
+                  "        </style>`;\r",
+                  "\r",
+                  "let table = `\r",
+                  "        <table>\r",
+                  "            <tr>\r",
+                  "                <th>No.</th>\r",
+                  "                <th>parentId</th>\r",
+                  "                <th>cateId</th>\r",
+                  "                <th>cateName</th>\r",
+                  "                <th>productCount</th>\r",
+                  "                <th>url</th>\r",
+                  "            </tr>\r",
+                  "\r",
+                  "            {{#each response}}\r",
+                  "                <tr>\r",
+                  "                    <td></td>\r",
+                  "                    <td>{{parentId}}</td>\r",
+                  "                    <td>{{cateId}}</td>\r",
+                  "                    <td>{{cateName}}</td>\r",
+                  "                    <td>{{productCount}}</td>\r",
+                  "                    <td><a href=\"${domain}/{{url}}\">{{url}}</a></td>\r",
+                  "                </tr>\r",
+                  "            {{/each}}\r",
+                  "        </table>`;\r",
+                  "\r",
+                  "let template = style + table;\r",
+                  "\r",
+                  "// Set visualizer\r",
+                  "pm.visualizer.set(template, {\r",
+                  "    // Pass the response body parsed as JSON as `data`\r",
+                  "    response: allCates\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "a1189e5d-a9b1-4046-90db-8b49786d3140",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "text/xml"
+              },
+              {
+                "key": "SOAPAction",
+                "value": "http://tempuri.org/ICategory/GetAllCategoriesBySite"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <Body>\n        <GetAllCategoriesBySite xmlns=\"http://tempuri.org/\">\n            <SiteID>10</SiteID>\n        </GetAllCategoriesBySite>\n    </Body>\n</Envelope>",
+              "options": {
+                "raw": {}
+              }
+            },
+            "url": "http://api.ankhang.com/v2/CategorySvc.svc"
+          },
+          "response": []
+        },
+        {
+          "name": "SearchProductV2",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "824b109a-a707-4ad7-bff6-18b340e22b50",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "29d4405c-be82-4442-876b-7cec1faf60de",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "SOAPAction",
+                "value": " http://tempuri.org/IProductV2/SearchProductSuggest",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "text/xml; charset=utf-8",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <s:Body>\r\n        <SearchProductSuggest xmlns=\"http://tempuri.org/\">\r\n            <query xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n                <a:_x003C_ActiveSubstanceGroupIDList_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_Activeproductidlist_x003E_k__BackingField i:nil=\"true\">0</a:_x003C_Activeproductidlist_x003E_k__BackingField>\r\n                <a:_x003C_CategoryId_x003E_k__BackingField>7004</a:_x003C_CategoryId_x003E_k__BackingField>\r\n                <a:_x003C_CompanyID_x003E_k__BackingField>0</a:_x003C_CompanyID_x003E_k__BackingField>\r\n                <a:_x003C_CountryIDList_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_ExceptTypeOfProductList_x003E_k__BackingField i:nil=\"true\" xmlns:b=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"/>\r\n                <a:_x003C_ExtensionObject_x003E_k__BackingField>0</a:_x003C_ExtensionObject_x003E_k__BackingField>\r\n                <a:_x003C_FeatureType_x003E_k__BackingField>0</a:_x003C_FeatureType_x003E_k__BackingField>\r\n                <a:_x003C_HasPromotion_x003E_k__BackingField>0</a:_x003C_HasPromotion_x003E_k__BackingField>\r\n                <a:_x003C_IsNew_x003E_k__BackingField>false</a:_x003C_IsNew_x003E_k__BackingField>\r\n                <a:_x003C_IsSearchLike_x003E_k__BackingField>false</a:_x003C_IsSearchLike_x003E_k__BackingField>\r\n                <a:_x003C_Keyword_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_ListCategoryId_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_ListManufactureID_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_ListProductId_x003E_k__BackingField></a:_x003C_ListProductId_x003E_k__BackingField>\r\n                <a:_x003C_ManufacturerId_x003E_k__BackingField>0</a:_x003C_ManufacturerId_x003E_k__BackingField>\r\n                <a:_x003C_MaxRecords_x003E_k__BackingField>0</a:_x003C_MaxRecords_x003E_k__BackingField>\r\n                <a:_x003C_OrderBy_x003E_k__BackingField>0</a:_x003C_OrderBy_x003E_k__BackingField>\r\n                <a:_x003C_OrderType_x003E_k__BackingField>Normal</a:_x003C_OrderType_x003E_k__BackingField>\r\n                <a:_x003C_PageIndex_x003E_k__BackingField>0</a:_x003C_PageIndex_x003E_k__BackingField>\r\n                <a:_x003C_PageSize_x003E_k__BackingField>12</a:_x003C_PageSize_x003E_k__BackingField>\r\n                <a:_x003C_PriceFrom_x003E_k__BackingField>0</a:_x003C_PriceFrom_x003E_k__BackingField>\r\n                <a:_x003C_PriceTo_x003E_k__BackingField>0</a:_x003C_PriceTo_x003E_k__BackingField>\r\n                <a:_x003C_PropSearch_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_PropertyDetailFilters_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_PropertyId_x003E_k__BackingField>0</a:_x003C_PropertyId_x003E_k__BackingField>\r\n                <a:_x003C_ProvinceId_x003E_k__BackingField>0</a:_x003C_ProvinceId_x003E_k__BackingField>\r\n                <a:_x003C_SearchType_x003E_k__BackingField>0</a:_x003C_SearchType_x003E_k__BackingField>\r\n                <a:_x003C_StoreID_x003E_k__BackingField>7887</a:_x003C_StoreID_x003E_k__BackingField>\r\n                <a:_x003C_TagsSearch_x003E_k__BackingField i:nil=\"true\" xmlns:b=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API.Tags\"/>\r\n                <a:_x003C_TagsSort_x003E_k__BackingField i:nil=\"true\" xmlns:b=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API.Tags\"/>\r\n                <a:_x003C_TermProductName_x003E_k__BackingField i:nil=\"true\"/>\r\n                <a:_x003C_TradeMarkList_x003E_k__BackingField i:nil=\"true\" xmlns:b=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"/>\r\n                <a:_x003C_TypeOfProductList_x003E_k__BackingField i:nil=\"true\" xmlns:b=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"/>\r\n                <a:_x003C_ValueId_x003E_k__BackingField>0</a:_x003C_ValueId_x003E_k__BackingField>\r\n                <a:_x003C_WebStatusIdList_x003E_k__BackingField xmlns:b=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\">\r\n                    <b:int>4</b:int>\r\n                </a:_x003C_WebStatusIdList_x003E_k__BackingField>\r\n                <a:_x003C_WebStatus_x003E_k__BackingField>4</a:_x003C_WebStatus_x003E_k__BackingField>\r\n                <a:_x003C_filterFunctionalByUses_x003E_k__BackingField i:nil=\"true\" xmlns:b=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"/>\r\n                <a:_x003C_subCategoryID_x003E_k__BackingField i:nil=\"true\" xmlns:b=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"/>\r\n            </query>\r\n            <intSiteID>10</intSiteID>\r\n            <intProvinceID>0</intProvinceID>\r\n            <strLangID>vi-VN</strLangID>\r\n            <intRowCount>0</intRowCount>\r\n            <FacetLst i:nil=\"true\" xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"/>\r\n            <SuggestLst i:nil=\"true\" xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"/>\r\n            <FacetCategory i:nil=\"true\" xmlns:a=\"http://schemas.datacontract.org/2004/07/TGDD.ThegioididongDidx.API\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\"/>\r\n        </SearchProductSuggest>\r\n    </s:Body>\r\n</s:Envelope>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": "http://stagingapi.ankhang.com/v2/ProductV2.svc"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "e87c7a0d-26e4-431e-8ae8-80c481f1a42a"
+    }
+  ],
+  "variable": [
+    {
+      "id": "e1d7ada4-7d67-4fbe-83c3-109a679dfc8f",
+      "key": "productIds",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
